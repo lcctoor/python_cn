@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Python安装和使用" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/using/index.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="这一部分文档专门介绍关于在不同平台上设置Python环境、调用解释器以及让使用Python更容易的一些事情的有用信息。 命令行与环境- 命令行- 接口选项, 通用选项, 其他选项, 不应当使用的选项., 环境变量- 调试模式变量.., 在类Unix环境下使用Python- 获得并安装Python的最新版本- 在Linux中, 在FreeBSD和OpenBSD上., 构建Python, 与Py..." />
+<meta property="og:image" content="/static/og-image.png" />
+<meta property="og:image:alt" content="Python documentation" />
+<meta name="description" content="这一部分文档专门介绍关于在不同平台上设置Python环境、调用解释器以及让使用Python更容易的一些事情的有用信息。 命令行与环境- 命令行- 接口选项, 通用选项, 其他选项, 不应当使用的选项., 环境变量- 调试模式变量.., 在类Unix环境下使用Python- 获得并安装Python的最新版本- 在Linux中, 在FreeBSD和OpenBSD上., 构建Python, 与Py..." />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta name="theme-color" content="#3776ab" />
+
+    <title>Python安装和使用 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="../static/documentation_options.js?v=67b2dffe"></script>
+    <script src="../static/doctools.js?v=9a2dae69"></script>
+    <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../static/translations.js?v=beaddf03"></script>
+    
+    <script src="../static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="../static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="1. 命令行与环境" href="cmdline.html" />
+    <link rel="prev" title="16. 附录" href="../tutorial/appendix.html" />
+    <link rel="canonical" href="https://docs.python.org/3/using/index.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../static/py.svg" />
+            <script type="text/javascript" src="../static/copybutton.js"></script>
+            <script type="text/javascript" src="../static/menu.js"></script>
+            <script type="text/javascript" src="../static/search-focus.js"></script>
+            <script type="text/javascript" src="../static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="../tutorial/appendix.html"
+                          title="上一章"><span class="section-number">16. </span>附录</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="cmdline.html"
+                          title="下一章"><span class="section-number">1. </span>命令行与环境</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/using/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="cmdline.html" title="1. 命令行与环境"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/appendix.html" title="16. 附录"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Python安装和使用</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="python-setup-and-usage">
+<span id="using-index"></span><h1>Python安装和使用<a class="headerlink" href="#python-setup-and-usage" title="Link to this heading">¶</a></h1>
+<p>这一部分文档专门介绍关于在不同平台上设置Python环境、调用解释器以及让使用Python更容易的一些事情的有用信息。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cmdline.html">1. 命令行与环境</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html#command-line">1.1. 命令行</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmdline.html#interface-options">1.1.1. 接口选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmdline.html#generic-options">1.1.2. 通用选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmdline.html#miscellaneous-options">1.1.3. 其他选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cmdline.html#options-you-shouldn-t-use">1.1.4. 不应当使用的选项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cmdline.html#environment-variables">1.2. 环境变量</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cmdline.html#debug-mode-variables">1.2.1. 调试模式变量</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="unix.html">2. 在类Unix环境下使用Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unix.html#getting-and-installing-the-latest-version-of-python">2.1. 获得并安装Python的最新版本</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unix.html#on-linux">2.1.1. 在Linux中</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unix.html#on-freebsd-and-openbsd">2.1.2. 在FreeBSD和OpenBSD上</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unix.html#building-python">2.2. 构建Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unix.html#python-related-paths-and-files">2.3. 与Python相关的路径和文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unix.html#miscellaneous">2.4. 杂项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unix.html#custom-openssl">2.5. 自定义 OpenSSL</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configure.html">3. 配置 Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configure.html#build-requirements">3.1. 构建要求</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure.html#generated-files">3.2. 已生成的文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#configure-script">3.2.1. 配置脚本</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configure.html#configure-options">3.3. 配置选项</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#general-options">3.3.1. 通用选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#webassembly-options">3.3.2. WebAssembly 选项。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#install-options">3.3.3. 安装时的选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#performance-options">3.3.4. 性能选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#python-debug-build">3.3.5. Python 调试级编译</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#debug-options">3.3.6. 调试选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#linker-options">3.3.7. 链接器选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#libraries-options">3.3.8. 库选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#security-options">3.3.9. 安全性选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#macos-options">3.3.10. macOS 选项</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#cross-compiling-options">3.3.11. 交叉编译选项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configure.html#python-build-system">3.4. Python 构建系统</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#main-files-of-the-build-system">3.4.1. 构建系统的主要文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#main-build-steps">3.4.2. 主要构建步骤</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#main-makefile-targets">3.4.3. 主要 Makefile 目标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#c-extensions">3.4.4. C 扩展</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="configure.html#compiler-and-linker-flags">3.5. 编译器和链接器的标志</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#preprocessor-flags">3.5.1. 预处理器的标志</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#compiler-flags">3.5.2. 编译器标志</a></li>
+<li class="toctree-l3"><a class="reference internal" href="configure.html#linker-flags">3.5.3. 链接器标志位</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="windows.html">4. 在Windows上使用 Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#the-full-installer">4.1. 完整安装程序</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#installation-steps">4.1.1. 安装步骤</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#removing-the-max-path-limitation">4.1.2. 删除 MAX_PATH 限制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#installing-without-ui">4.1.3. 无UI 安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#installing-without-downloading">4.1.4. 免下载安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#modifying-an-install">4.1.5. 修改安装</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#the-microsoft-store-package">4.2. Microsoft Store包</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#known-issues">4.2.1. 已知的问题</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#redirection-of-local-data-registry-and-temporary-paths">4.2.1.1. 本地数据、注册表项和临时路径的重定向</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#the-nuget-org-packages">4.3. nuget.org 安装包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#the-embeddable-package">4.4. 可嵌入的包</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#python-application">4.4.1. Python应用程序</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#embedding-python">4.4.2. 嵌入Python</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#alternative-bundles">4.5. 替代捆绑包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#configuring-python">4.6. 配置Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#excursus-setting-environment-variables">4.6.1. 附录：设置环境变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#finding-the-python-executable">4.6.2. 查找Python可执行文件</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#utf-8-mode">4.7. UTF-8 模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#python-launcher-for-windows">4.8. 适用于Windows的Python启动器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#getting-started">4.8.1. 入门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#from-the-command-line">4.8.1.1. 从命令行</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#virtual-environments">4.8.1.2. 从虚拟环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#from-a-script">4.8.1.3. 从脚本</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#from-file-associations">4.8.1.4. 从文件关联</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#shebang-lines">4.8.2. Shebang Lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#arguments-in-shebang-lines">4.8.3. shebang lines 的参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#customization">4.8.4. 自定义</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#customization-via-ini-files">4.8.4.1. 通过INI文件自定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="windows.html#customizing-default-python-versions">4.8.4.2. 自定义默认的Python版本</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#diagnostics">4.8.5. 诊断</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#dry-run">4.8.6. 试运行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#install-on-demand">4.8.7. 按需安装</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#return-codes">4.8.8. 返回码</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#finding-modules">4.9. 查找模块</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#additional-modules">4.10. 附加模块</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#pywin32">4.10.1. PyWin32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html#cx-freeze">4.10.2. cx_Freeze</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#compiling-python-on-windows">4.11. 在Windows上编译Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows.html#other-platforms">4.12. 其他平台</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mac.html">5. 在 Mac 上使用 Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#getting-and-installing-python">5.1. 获取和安装 Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mac.html#how-to-run-a-python-script">5.1.1. 如何运行 Python 脚本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mac.html#running-scripts-with-a-gui">5.1.2. 运行有图形界面的脚本</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mac.html#configuration">5.1.3. 配置</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#the-ide">5.2. IDE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#installing-additional-python-packages">5.3. 安装额外的 Python 包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#gui-programming">5.4. GUI 编程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#distributing-python-applications">5.5. 分发 Python 应用程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mac.html#other-resources">5.6. 其他资源</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="editors.html">6. 编辑器和集成开发环境</a></li>
+</ul>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="../tutorial/appendix.html"
+                          title="上一章"><span class="section-number">16. </span>附录</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="cmdline.html"
+                          title="下一章"><span class="section-number">1. </span>命令行与环境</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/using/index.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="cmdline.html" title="1. 命令行与环境"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="../tutorial/appendix.html" title="16. 附录"
+             >上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">Python安装和使用</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="../copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

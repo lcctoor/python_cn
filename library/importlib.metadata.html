@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="importlib.metadata -- 访问软件包元数据" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/importlib.metadata.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="源代码: Lib/importlib/metadata/__init__.py importlib.metadata 是一个提供对已安装的 分发包 的元数据的访问的库，如其入口点或其最高层级名称 ( 导入包, 模块等，如果存在的话）。 这个库部分构建于 Python 的导入系统之上，其目标是取代 pkg_resources 的中的 entry point API 和 metadata API..." />
+<meta property="og:image" content="/static/og-image.png" />
+<meta property="og:image:alt" content="Python documentation" />
+<meta name="description" content="源代码: Lib/importlib/metadata/__init__.py importlib.metadata 是一个提供对已安装的 分发包 的元数据的访问的库，如其入口点或其最高层级名称 ( 导入包, 模块等，如果存在的话）。 这个库部分构建于 Python 的导入系统之上，其目标是取代 pkg_resources 的中的 entry point API 和 metadata API..." />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta name="theme-color" content="#3776ab" />
+
+    <title>importlib.metadata -- 访问软件包元数据 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="../static/documentation_options.js?v=67b2dffe"></script>
+    <script src="../static/doctools.js?v=9a2dae69"></script>
+    <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../static/translations.js?v=beaddf03"></script>
+    
+    <script src="../static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="../static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="sys.path 模块搜索路径的初始化" href="sys_path_init.html" />
+    <link rel="prev" title="importlib.resources.abc -- Abstract base classes for resources" href="importlib.resources.abc.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/importlib.metadata.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../static/py.svg" />
+            <script type="text/javascript" src="../static/copybutton.js"></script>
+            <script type="text/javascript" src="../static/menu.js"></script>
+            <script type="text/javascript" src="../static/search-focus.js"></script>
+            <script type="text/javascript" src="../static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> -- 访问软件包元数据</a><ul>
+<li><a class="reference internal" href="#overview">概述</a></li>
+<li><a class="reference internal" href="#functional-api">函数式 API</a><ul>
+<li><a class="reference internal" href="#entry-points">入口点</a></li>
+<li><a class="reference internal" href="#distribution-metadata">分发的元数据</a></li>
+<li><a class="reference internal" href="#distribution-versions">分发的版本</a></li>
+<li><a class="reference internal" href="#distribution-files">分发的文件</a></li>
+<li><a class="reference internal" href="#distribution-requirements">分发的依赖</a></li>
+<li><a class="reference internal" href="#mapping-import-to-distribution-packages">将导入映射到分发包</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#distributions">分发</a></li>
+<li><a class="reference internal" href="#distribution-discovery">分发包的发现</a></li>
+<li><a class="reference internal" href="#extending-the-search-algorithm">扩展搜索算法</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="importlib.resources.abc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources.abc</span></code> -- Abstract base classes for resources</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="sys_path_init.html"
+                          title="下一章"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code> 模块搜索路径的初始化</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/importlib.metadata.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sys_path_init.html" title="sys.path 模块搜索路径的初始化"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="importlib.resources.abc.html" title="importlib.resources.abc -- Abstract base classes for resources"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" accesskey="U">导入模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> -- 访问软件包元数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-importlib.metadata">
+<span id="importlib-metadata-accessing-package-metadata"></span><span id="using"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> -- 访问软件包元数据<a class="headerlink" href="#module-importlib.metadata" title="Link to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 不再是暂定的。</p>
+</div>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.12/Lib/importlib/metadata/__init__.py">Lib/importlib/metadata/__init__.py</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 是一个提供对已安装的 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 的元数据的访问的库，如其入口点或其最高层级名称 (<a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Import-Package">导入包</a>, 模块等，如果存在的话）。 这个库部分构建于 Python 的导入系统之上，其目标是取代 <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> 的中的 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">entry point API</a> 和 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/pkg_resources.html#metadata-api">metadata API</a>。 配合 <a class="reference internal" href="importlib.resources.html#module-importlib.resources" title="importlib.resources: Package resource reading, opening, and access"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources</span></code></a> ，这个包可以消除使用较老旧且低效的 <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> 包的必要性。</p>
+<p><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 对通过 <a class="reference external" href="https://pypi.org/project/pip/">pip</a> 之类的工具安装到 Python 的 <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> 目录的第三方 <em>分发包</em> 进行操作。 具体来说，它适用于带有可发现的 <code class="docutils literal notranslate"><span class="pre">dist-info</span></code> 或 <code class="docutils literal notranslate"><span class="pre">egg-info</span></code> 目录，以及由 <a class="reference external" href="https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata">核心元数据规范说明</a> 所定义的元数据的分发包。</p>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>These are <em>not</em> necessarily equivalent to or correspond 1:1 with
+the top-level <em>import package</em> names
+that can be imported inside Python code.
+One <em>distribution package</em> can contain multiple <em>import packages</em>
+(and single modules),
+and one top-level <em>import package</em>
+may map to multiple <em>distribution packages</em>
+if it is a namespace package.
+You can use <a class="reference internal" href="#package-distributions"><span class="std std-ref">package_distributions()</span></a>
+to get a mapping between them.</p>
+</div>
+<p>在默认情况下，分发包元数据可以存在于 <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> 下的文件系统或 zip 归档文件中。 通过一个扩展机制，元数据可以存在于几乎任何地方。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://importlib-metadata.readthedocs.io/">https://importlib-metadata.readthedocs.io/</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> 的文档，它提供了对 <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 的向下移植。 这包含该模块的类和函数的 <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/api.html">API 引用</a>，以及针对 <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> 现有用户的 <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/migration.html">迁移指南</a>。</p>
+</dd>
+</dl>
+</div>
+<section id="overview">
+<h2>概述<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>让我们假设你想要获取你使用 <code class="docutils literal notranslate"><span class="pre">pip</span></code> 安装的某个 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 的版本字符串。 我们首先创建一个虚拟环境并在其中安装一些软件包:</p>
+<div class="highlight-shell-session notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>example
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>example/bin/activate
+<span class="gp gp-VirtualEnv">(example)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>wheel
+</pre></div>
+</div>
+<p>你可以通过运行以下代码得到 <code class="docutils literal notranslate"><span class="pre">wheel</span></code> 的版本字符串：</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">(example) $ python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">version</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+<span class="go">&#39;0.32.3&#39;</span>
+</pre></div>
+</div>
+<p>你还能够获得可通过 EntryPoint 的特征属性 (通常为 'group' 或 'name') 来选择的入口点多项集，比如 <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code>, <code class="docutils literal notranslate"><span class="pre">distutils.commands</span></code> 等等。 每个 group 包含一个由 <a class="reference internal" href="#entry-points"><span class="std std-ref">EntryPoint</span></a> 对象组成的多项集。</p>
+<p>你可以获得 <a class="reference internal" href="#metadata"><span class="std std-ref">分发的元数据</span></a>：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">metadata</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">))</span>  
+<span class="go">[&#39;Metadata-Version&#39;, &#39;Name&#39;, &#39;Version&#39;, &#39;Summary&#39;, &#39;Home-page&#39;, &#39;Author&#39;, &#39;Author-email&#39;, &#39;Maintainer&#39;, &#39;Maintainer-email&#39;, &#39;License&#39;, &#39;Project-URL&#39;, &#39;Project-URL&#39;, &#39;Project-URL&#39;, &#39;Keywords&#39;, &#39;Platform&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Classifier&#39;, &#39;Requires-Python&#39;, &#39;Provides-Extra&#39;, &#39;Requires-Dist&#39;, &#39;Requires-Dist&#39;]</span>
+</pre></div>
+</div>
+<p>你也可以获得 <a class="reference internal" href="#version"><span class="std std-ref">分发的版本号</span></a>，列出它的 <a class="reference internal" href="#files"><span class="std std-ref">构成文件</span></a>，并且得到分发的 <a class="reference internal" href="#requirements"><span class="std std-ref">分发的依赖</span></a> 列表。</p>
+</section>
+<section id="functional-api">
+<h2>函数式 API<a class="headerlink" href="#functional-api" title="Link to this heading">¶</a></h2>
+<p>这个包通过其公共 API 提供了以下功能。</p>
+<section id="entry-points">
+<span id="id2"></span><h3>入口点<a class="headerlink" href="#entry-points" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">entry_points()</span></code> 函数返回入口点的字典。入口点表现为 <code class="docutils literal notranslate"><span class="pre">EntryPoint</span></code> 的实例；每个 <code class="docutils literal notranslate"><span class="pre">EntryPoint</span></code> 对象都有 <code class="docutils literal notranslate"><span class="pre">.name</span></code> ，<code class="docutils literal notranslate"><span class="pre">.group</span></code> 与 <code class="docutils literal notranslate"><span class="pre">.value</span></code> 属性，用于解析值的 <code class="docutils literal notranslate"><span class="pre">.load()</span></code> 方法， <code class="docutils literal notranslate"><span class="pre">.module</span></code> ，<code class="docutils literal notranslate"><span class="pre">.attr</span></code> 与 <code class="docutils literal notranslate"><span class="pre">.extras</span></code> 属性是 <code class="docutils literal notranslate"><span class="pre">.value</span></code> 属性的对应部分。</p>
+<p>查询所有的入口点：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">entry_points()</span></code> 函数返回一个 <code class="docutils literal notranslate"><span class="pre">EntryPoints</span></code> 对象，即由带有 <code class="docutils literal notranslate"><span class="pre">names</span></code> 和 <code class="docutils literal notranslate"><span class="pre">groups</span></code> 属性的全部 <code class="docutils literal notranslate"><span class="pre">EntryPoint</span></code> 对象组成的多项集以方便使用:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">eps</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>  
+<span class="go">[&#39;console_scripts&#39;, &#39;distutils.commands&#39;, &#39;distutils.setup_keywords&#39;, &#39;egg_info.writers&#39;, &#39;setuptools.installation&#39;]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">EntryPoints</span></code> 的 <code class="docutils literal notranslate"><span class="pre">select</span></code> 方法用于选择匹配特性的入口点。要选择 <code class="docutils literal notranslate"><span class="pre">console_scripts</span></code> 组中的入口点：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scripts</span> <span class="o">=</span> <span class="n">eps</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;console_scripts&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>你也可以向 <code class="docutils literal notranslate"><span class="pre">entry_points</span></code> 传递关键字参数 &quot;group&quot; 以实现相同的效果:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scripts</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;console_scripts&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>选出命名为 “wheel” 的特定脚本（可以在 wheel 项目中找到）：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;wheel&#39;</span> <span class="ow">in</span> <span class="n">scripts</span><span class="o">.</span><span class="n">names</span>  
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span> <span class="o">=</span> <span class="n">scripts</span><span class="p">[</span><span class="s1">&#39;wheel&#39;</span><span class="p">]</span>  
+</pre></div>
+</div>
+<p>等价地，在选择过程中查询对应的入口点：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">wheel</span><span class="p">,)</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">wheel</span><span class="p">,)</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;console_scripts&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>检查解析得到的入口点：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span>  
+<span class="go">EntryPoint(name=&#39;wheel&#39;, value=&#39;wheel.cli:main&#39;, group=&#39;console_scripts&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">module</span>  
+<span class="go">&#39;wheel.cli&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">attr</span>  
+<span class="go">&#39;main&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">wheel</span><span class="o">.</span><span class="n">extras</span>  
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main</span> <span class="o">=</span> <span class="n">wheel</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main</span>  
+<span class="go">&lt;function main at 0x103528488&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">group</span></code> 和 <code class="docutils literal notranslate"><span class="pre">name</span></code> 是由包作者定义的任意值并且通常来说客户端会想要解析特定 group 的所有入口点。 请参阅 <a class="reference external" href="https://setuptools.pypa.io/en/latest/userguide/entry_point.html">the setuptools docs</a> 了解有关入口点，其定义和用法的更多信息。</p>
+<p><em>Compatibility Note</em></p>
+<p>&quot;selectable&quot; 入口点是在 <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> 3.6 和 Python 3.10 中引入的。 在这项改变之前，<code class="docutils literal notranslate"><span class="pre">entry_points</span></code> 不接受任何形参并且总是返回一个由入口点组成的字典，字典的键为分组名。 在 <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> 5.0 和 Python 3.12 中，<code class="docutils literal notranslate"><span class="pre">entry_points</span></code> 总是返回一个 <code class="docutils literal notranslate"><span class="pre">EntryPoints</span></code> 对象。 请参阅 <a class="reference external" href="https://pypi.org/project/backports.entry_points_selectable/">backports.entry_points_selectable</a> 了解相关兼容性选项。</p>
+</section>
+<section id="distribution-metadata">
+<span id="metadata"></span><h3>分发的元数据<a class="headerlink" href="#distribution-metadata" title="Link to this heading">¶</a></h3>
+<p>每个 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 都包括一些元数据，你可以使用 <code class="docutils literal notranslate"><span class="pre">metadata()</span></code> 函数来获取:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>返回的数据架构 <code class="docutils literal notranslate"><span class="pre">PackageMetadata</span></code> 的键代表元数据的关键字，而值从分发的元数据中不被解析地返回：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span><span class="p">[</span><span class="s1">&#39;Requires-Python&#39;</span><span class="p">]</span>  
+<span class="go">&#39;&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*&#39;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">PackageMetadata</span></code> 也提供了按照 <span class="target" id="index-2"></span><a class="pep reference external" href="https://peps.python.org/pep-0566/"><strong>PEP 566</strong></a> 将所有元数据以 JSON 兼容的方式返回的 <code class="docutils literal notranslate"><span class="pre">json</span></code> 属性：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wheel_metadata</span><span class="o">.</span><span class="n">json</span><span class="p">[</span><span class="s1">&#39;requires_python&#39;</span><span class="p">]</span>
+<span class="go">&#39;&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><code class="docutils literal notranslate"><span class="pre">metadata()</span></code> 所返回的对象的实际类型是一个实现细节并且应当只能通过 <a class="reference external" href="https://importlib-metadata.readthedocs.io/en/latest/api.html#importlib_metadata.PackageMetadata">PackageMetadata 协议</a> 所描述的接口来访问。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>当有效载荷中包含时，<code class="docutils literal notranslate"><span class="pre">Description</span></code> 以去除续行符的形式被包含于元数据中。</p>
+<p>添加了 <code class="docutils literal notranslate"><span class="pre">json</span></code> 属性。</p>
+</div>
+</section>
+<section id="distribution-versions">
+<span id="version"></span><h3>分发的版本<a class="headerlink" href="#distribution-versions" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">version()</span></code> 函数可以最快捷地以字符串形式获取一个 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 的版本号:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+<span class="go">&#39;0.32.3&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="distribution-files">
+<span id="files"></span><h3>分发的文件<a class="headerlink" href="#distribution-files" title="Link to this heading">¶</a></h3>
+<p>你还可以获取包含在分发包内的全部文件的集合。 <code class="docutils literal notranslate"><span class="pre">files()</span></code> 函数接受一个 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 名称并返回此分发包所安装的全部文件。 每个返回的文件对象都是一个 <code class="docutils literal notranslate"><span class="pre">PackagePath</span></code>，即带有由元数据指明的额外 <code class="docutils literal notranslate"><span class="pre">dist</span></code>, <code class="docutils literal notranslate"><span class="pre">size</span></code> 和 <code class="docutils literal notranslate"><span class="pre">hash</span></code> 特征属性的派生自 <a class="reference internal" href="pathlib.html#pathlib.PurePath" title="pathlib.PurePath"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.PurePath</span></code></a> 的对象。 例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">util</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">files</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;util.py&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span>  
+<span class="go">PackagePath(&#39;wheel/util.py&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">size</span>  
+<span class="go">859</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">dist</span>  
+<span class="go">&lt;importlib.metadata._hooks.PathDistribution object at 0x101e0cef0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">hash</span>  
+<span class="go">&lt;FileHash mode: sha256 value: bYkw5oMccfazVCoYQwKkkemoVyMAFoR34mmKBx8R1NI&gt;</span>
+</pre></div>
+</div>
+<p>当你获得了文件对象，你可以读取其内容：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>  
+<span class="go">import base64</span>
+<span class="go">import sys</span>
+<span class="go">...</span>
+<span class="go">def as_bytes(s):</span>
+<span class="go">    if isinstance(s, text_type):</span>
+<span class="go">        return s.encode(&#39;utf-8&#39;)</span>
+<span class="go">    return s</span>
+</pre></div>
+</div>
+<p>你也可以使用 <code class="docutils literal notranslate"><span class="pre">locate</span></code> 方法来获得文件的绝对路径：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">util</span><span class="o">.</span><span class="n">locate</span><span class="p">()</span>  
+<span class="go">PosixPath(&#39;/home/gustav/example/lib/site-packages/wheel/util.py&#39;)</span>
+</pre></div>
+</div>
+<p>当列出包含文件的元数据文件（RECORD 或 SOURCES.txt）不存在时， <code class="docutils literal notranslate"><span class="pre">files()</span></code> 函数将返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。调用者可能会想要将对 <code class="docutils literal notranslate"><span class="pre">files()</span></code> 的调用封装在 <a class="reference external" href="https://more-itertools.readthedocs.io/en/stable/api.html#more_itertools.always_iterable">always_iterable</a> 中，或者用其他方法来应对目标分发元数据存在性未知的情况。</p>
+</section>
+<section id="distribution-requirements">
+<span id="requirements"></span><h3>分发的依赖<a class="headerlink" href="#distribution-requirements" title="Link to this heading">¶</a></h3>
+<p>要获取一个 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 的完整需求集合，请使用 <code class="docutils literal notranslate"><span class="pre">requires()</span></code> 函数:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">requires</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+<span class="go">[&quot;pytest (&gt;=3.0.0) ; extra == &#39;test&#39;&quot;, &quot;pytest-cov ; extra == &#39;test&#39;&quot;]</span>
+</pre></div>
+</div>
+</section>
+<section id="mapping-import-to-distribution-packages">
+<span id="import-distribution-package-mapping"></span><span id="package-distributions"></span><h3>将导入映射到分发包<a class="headerlink" href="#mapping-import-to-distribution-packages" title="Link to this heading">¶</a></h3>
+<p>解析每个提供可导入的最高层级 Python 模块或 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Import-Package">导入包</a> 对应的 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 名称（对于命名空间包可能有多个名称）的快捷方法:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">packages_distributions</span><span class="p">()</span>
+<span class="go">{&#39;importlib_metadata&#39;: [&#39;importlib-metadata&#39;], &#39;yaml&#39;: [&#39;PyYAML&#39;], &#39;jaraco&#39;: [&#39;jaraco.classes&#39;, &#39;jaraco.functools&#39;], ...}</span>
+</pre></div>
+</div>
+<p>某些可编辑的安装 <a class="reference external" href="https://github.com/pypa/packaging-problems/issues/609">没有提供最高层级名称</a>，因而此函数不适用于这样的安装。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
+</div>
+</section>
+</section>
+<section id="distributions">
+<span id="id9"></span><h2>分发<a class="headerlink" href="#distributions" title="Link to this heading">¶</a></h2>
+<p>以上 API 是最常见且便捷的用法，但你也可以通过 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 类来获得所有信息。 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 是一个代表 Python <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 元数据的抽象对象。 你可以这样获取 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 实例:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">distribution</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span> <span class="o">=</span> <span class="n">distribution</span><span class="p">(</span><span class="s1">&#39;wheel&#39;</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>因此，可以通过 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 实例获得版本号：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">version</span>  
+<span class="go">&#39;0.32.3&#39;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 实例具有所有可用的附加元数据：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;Requires-Python&#39;</span><span class="p">]</span>  
+<span class="go">&#39;&gt;=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;License&#39;</span><span class="p">]</span>  
+<span class="go">&#39;MIT&#39;</span>
+</pre></div>
+</div>
+<p>可用元数据的完整集合并未在此描述。 请参阅 <a class="reference external" href="https://packaging.python.org/en/latest/specifications/core-metadata/#core-metadata">核心元数据规格说明</a> 了解更多细节。</p>
+</section>
+<section id="distribution-discovery">
+<h2>分发包的发现<a class="headerlink" href="#distribution-discovery" title="Link to this heading">¶</a></h2>
+<p>在默认情况下，这个包针对文件系统和 zip 文件 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 的元数据发现提供了内置支持。 这个元数据查找器的搜索目标默认为 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code>，但它对来自其他导入机制行为方式的解读会略有变化。 特别地:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 不会识别  <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 上的 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 将顺带识别 <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> 上的 <a class="reference internal" href="pathlib.html#pathlib.Path" title="pathlib.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> 对象，即使这些值会被导入操作所忽略。</p></li>
+</ul>
+</section>
+<section id="extending-the-search-algorithm">
+<h2>扩展搜索算法<a class="headerlink" href="#extending-the-search-algorithm" title="Link to this heading">¶</a></h2>
+<p>因为 <a class="reference external" href="https://packaging.python.org/en/latest/glossary/#term-Distribution-Package">分发包</a> 元数据不能通过 <a class="reference internal" href="sys.html#sys.path" title="sys.path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code></a> 搜索，或是通过包加载器直接获得，一个分发包的元数据是通过导入系统的 <a class="reference internal" href="../reference/import.html#finders-and-loaders"><span class="std std-ref">查找器</span></a> 找到的。 要找到分发包的元数据，<code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 将在 <a class="reference internal" href="sys.html#sys.meta_path" title="sys.meta_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.meta_path</span></code></a> 上查询 <a class="reference internal" href="../glossary.html#term-meta-path-finder"><span class="xref std std-term">元路径查找器</span></a> 的列表。</p>
+<p>在默认情况下 <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 会安装在文件系统中找到的分发包的查找器。 这个查找器无法真正找出任何 <em>分发包</em>，但它能找到它们的元数据。</p>
+<p>抽象基类 <a class="reference internal" href="importlib.html#importlib.abc.MetaPathFinder" title="importlib.abc.MetaPathFinder"><code class="xref py py-class docutils literal notranslate"><span class="pre">importlib.abc.MetaPathFinder</span></code></a> 定义了 Python 导入系统期望的查找器接口。 <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> 通过寻找 <a class="reference internal" href="sys.html#sys.meta_path" title="sys.meta_path"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.meta_path</span></code></a> 上查找器可选的 <code class="docutils literal notranslate"><span class="pre">find_distributions</span></code> 可调用的属性扩展这个协议，并将这个扩展接口作为 <code class="docutils literal notranslate"><span class="pre">DistributionFinder</span></code> 抽象基类提供，它定义了这个抽象方法：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<span class="k">def</span> <span class="nf">find_distributions</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">DistributionFinder</span><span class="o">.</span><span class="n">Context</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an iterable of all Distribution instances capable of</span>
+<span class="sd">    loading the metadata for packages for the indicated ``context``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DistributionFinder.Context</span></code> 对象提供了指示搜索路径和匹配名称的属性 <code class="docutils literal notranslate"><span class="pre">.path</span></code> 和 <code class="docutils literal notranslate"><span class="pre">.name</span></code> ，也可能提供其他相关的上下文。</p>
+<p>这在实践中意味着要支持在文件系统外的其他位置查找分发包的元数据，你需要子类化 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 并实现抽象方法，之后从一个自定义查找器的 <code class="docutils literal notranslate"><span class="pre">find_distributions()</span></code> 方法返回这个派生的 <code class="docutils literal notranslate"><span class="pre">Distribution</span></code> 实例。</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> -- 访问软件包元数据</a><ul>
+<li><a class="reference internal" href="#overview">概述</a></li>
+<li><a class="reference internal" href="#functional-api">函数式 API</a><ul>
+<li><a class="reference internal" href="#entry-points">入口点</a></li>
+<li><a class="reference internal" href="#distribution-metadata">分发的元数据</a></li>
+<li><a class="reference internal" href="#distribution-versions">分发的版本</a></li>
+<li><a class="reference internal" href="#distribution-files">分发的文件</a></li>
+<li><a class="reference internal" href="#distribution-requirements">分发的依赖</a></li>
+<li><a class="reference internal" href="#mapping-import-to-distribution-packages">将导入映射到分发包</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#distributions">分发</a></li>
+<li><a class="reference internal" href="#distribution-discovery">分发包的发现</a></li>
+<li><a class="reference internal" href="#extending-the-search-algorithm">扩展搜索算法</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="importlib.resources.abc.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.resources.abc</span></code> -- Abstract base classes for resources</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="sys_path_init.html"
+                          title="下一章"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.path</span></code> 模块搜索路径的初始化</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/importlib.metadata.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="sys_path_init.html" title="sys.path 模块搜索路径的初始化"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="importlib.resources.abc.html" title="importlib.resources.abc -- Abstract base classes for resources"
+             >上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="modules.html" >导入模块</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib.metadata</span></code> -- 访问软件包元数据</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="../copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

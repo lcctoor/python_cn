@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="整数型对象" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/c-api/long.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="所有整数都实现为长度任意的长整数对象。 在出错时，大多数 PyLong_As* API 都会返回(return type)-1 ，这与数字无法区分开。请采用 PyErr_Occurred() 来加以区分。" />
+<meta property="og:image" content="/static/og-image.png" />
+<meta property="og:image:alt" content="Python documentation" />
+<meta name="description" content="所有整数都实现为长度任意的长整数对象。 在出错时，大多数 PyLong_As* API 都会返回(return type)-1 ，这与数字无法区分开。请采用 PyErr_Occurred() 来加以区分。" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta name="theme-color" content="#3776ab" />
+
+    <title>整数型对象 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="../static/documentation_options.js?v=67b2dffe"></script>
+    <script src="../static/doctools.js?v=9a2dae69"></script>
+    <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../static/translations.js?v=beaddf03"></script>
+    
+    <script src="../static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="../static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="布尔对象" href="bool.html" />
+    <link rel="prev" title="None 对象" href="none.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/long.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../static/py.svg" />
+            <script type="text/javascript" src="../static/copybutton.js"></script>
+            <script type="text/javascript" src="../static/menu.js"></script>
+            <script type="text/javascript" src="../static/search-focus.js"></script>
+            <script type="text/javascript" src="../static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="none.html"
+                          title="上一章"><code class="docutils literal notranslate"><span class="pre">None</span></code> 对象</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="bool.html"
+                          title="下一章">布尔对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/long.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="bool.html" title="布尔对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="none.html" title="None 对象"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">整数型对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="integer-objects">
+<span id="longobjects"></span><h1>整数型对象<a class="headerlink" href="#integer-objects" title="Link to this heading">¶</a></h1>
+<p id="index-0">所有整数都实现为长度任意的长整数对象。</p>
+<p>在出错时，大多数 <code class="docutils literal notranslate"><span class="pre">PyLong_As*</span></code> API 都会返回  <code class="docutils literal notranslate"><span class="pre">(return</span> <span class="pre">type)-1</span></code>，这与数字无法区分开。请采用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 来加以区分。</p>
+<dl class="c type">
+<dt class="sig sig-object c" id="c.PyLongObject">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLongObject</span></span></span><a class="headerlink" href="#c.PyLongObject" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">受限 API</span></a> （作为不透明的结构体）.</em><p>表示 Python 整数对象的 <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> 子类型。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.PyLong_Type">
+<a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_Type</span></span></span><a class="headerlink" href="#c.PyLong_Type" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>这个 <a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> 的实例表示 Python 的整数类型。与 Python 语言中的 <a class="reference internal" href="../library/functions.html#int" title="int"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> 相同。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_Check">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_Check</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_Check" title="Link to this definition">¶</a><br /></dt>
+<dd><p>如果参数是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 或 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的子类型，则返回 True。该函数一定能够执行成功。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_CheckExact">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_CheckExact</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_CheckExact" title="Link to this definition">¶</a><br /></dt>
+<dd><p>如果其参数属于 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>，但不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的子类型则返回真值。 此函数总是会成功执行。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromLong">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromLong</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>由 <em>v</em> 返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 。</p>
+<p>当前的实现维护着一个整数对象数组，包含 <code class="docutils literal notranslate"><span class="pre">-5</span></code> 和 <code class="docutils literal notranslate"><span class="pre">256</span></code> 之间的所有整数对象。 若创建一个位于该区间的 int 时，实际得到的将是对已有对象的引用。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromUnsignedLong">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromUnsignedLong</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromUnsignedLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>基于 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> 返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromSsize_t">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromSsize_t</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromSsize_t" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>由 C <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a>  返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromSize_t">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromSize_t</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromSize_t" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>由 C <code class="xref c c-type docutils literal notranslate"><span class="pre">size_t</span></code> 返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromLongLong">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromLongLong</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromLongLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>基于 C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromUnsignedLongLong">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromUnsignedLongLong</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromUnsignedLongLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>基于 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromDouble">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromDouble</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromDouble" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>由 <em>v</em> 的整数部分返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 对象，失败则返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code> 。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromString">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromString</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span>, <span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pend</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromString" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>根据 <em>str</em> 字符串值返回一个新的 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>，它将根据 <em>base</em> 指定的基数来解读，或是在失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。 如果 <em>pend</em> 不为 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，则在成功时 <em>*pend</em> 将指向 <em>str</em> 中末尾而在出错时将指向第一个无法处理的字符。 如果 <em>base</em> 为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，则 <em>str</em> 将使用 <a class="reference internal" href="../reference/lexical_analysis.html#integers"><span class="std std-ref">整数字面值</span></a> 定义来解读；在此情况下，非零十进制数以零开头将会引发 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。 如果 <em>base</em> 不为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，则必须在 <code class="docutils literal notranslate"><span class="pre">2</span></code> 和 <code class="docutils literal notranslate"><span class="pre">36</span></code>，包括这两个值。 开头和末尾的空格以及基数标示符之后和数码之间的单下划线将被忽略。 如果没有数码或 <em>str</em> 中数码和末尾空格之后不以 NULL 结束，则将引发 <a class="reference internal" href="../library/exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p>Python 方法 <a class="reference internal" href="../library/stdtypes.html#int.to_bytes" title="int.to_bytes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">int.to_bytes()</span></code></a> 和 <a class="reference internal" href="../library/stdtypes.html#int.from_bytes" title="int.from_bytes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">int.from_bytes()</span></code></a> 用于 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 到/从字节数组之间以 <code class="docutils literal notranslate"><span class="pre">256</span></code> 为基数进行转换。 你可以使用 <a class="reference internal" href="call.html#c.PyObject_CallMethod" title="PyObject_CallMethod"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyObject_CallMethod()</span></code></a> 从 C 调用它们。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromUnicodeObject">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromUnicodeObject</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">u</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">base</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromUnicodeObject" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><p>将字符串 <em>u</em> 中的 Unicode 数字序列转换为 Python 整数值。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_FromVoidPtr">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_FromVoidPtr</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_FromVoidPtr" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>从指针 <em>p</em> 创建一个 Python 整数。可以使用 <a class="reference internal" href="#c.PyLong_AsVoidPtr" title="PyLong_AsVoidPtr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyLong_AsVoidPtr()</span></code></a> 返回的指针值。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsLong">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsLong</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-1">返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 的值超出了 <span class="c-expr sig sig-inline c"><span class="kt">long</span></span> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。请用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 找出具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsLongAndOverflow">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsLongAndOverflow</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">overflow</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsLongAndOverflow" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 的值大于 <code class="xref c c-macro docutils literal notranslate"><span class="pre">LONG_MAX</span></code> 或小于 <code class="xref c c-macro docutils literal notranslate"><span class="pre">LONG_MIN</span></code>，则会把 <em>*overflow</em> 分别置为 <code class="docutils literal notranslate"><span class="pre">1</span></code> 或 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>；否则，将 <em>*overflow</em> 置为 <code class="docutils literal notranslate"><span class="pre">0</span></code>。 如果发生其他异常则按常规把 <em>*overflow</em> 置为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+<p>出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。请用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 找出具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsLongLong">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsLongLong</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsLongLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-2">返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 值超出 <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。请用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 找出具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsLongLongAndOverflow">
+<span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsLongLongAndOverflow</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">overflow</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsLongLongAndOverflow" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 的值大于 <code class="xref c c-macro docutils literal notranslate"><span class="pre">LLONG_MAX</span></code> 或小于 <code class="xref c c-macro docutils literal notranslate"><span class="pre">LLONG_MIN</span></code>，则会把 <em>*overflow</em> 分别置为 <code class="docutils literal notranslate"><span class="pre">1</span></code> 或 <code class="docutils literal notranslate"><span class="pre">-1</span></code>，并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>；否则，将 <em>*overflow</em> 置为 <code class="docutils literal notranslate"><span class="pre">0</span></code>。 如果发生其他异常则按常规把 <em>*overflow</em> 置为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 并返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code>。</p>
+<p>出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。请用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 找出具体问题。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsSsize_t">
+<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsSsize_t</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsSsize_t" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-3">返回 <em>pylong</em> 的 C 语言 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 形式。<em>pylong</em> 必须是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例。</p>
+<p>如果 <em>pylong</em> 的值超出了 <a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><code class="xref c c-type docutils literal notranslate"><span class="pre">Py_ssize_t</span></code></a> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错则返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 。请用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 找出具体问题。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsUnsignedLong">
+<span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsUnsignedLong</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsUnsignedLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-4">返回 <em>pylong</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 <em>pylong</em> 必须是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例。</p>
+<p>如果 <em>pylong</em> 的值超出了 <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错时返回 <code class="docutils literal notranslate"><span class="pre">(unsigned</span> <span class="pre">long)-1</span></code> ，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsSize_t">
+<span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsSize_t</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsSize_t" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-5">返回 <em>pylong</em> 的 C 语言 <code class="xref c c-type docutils literal notranslate"><span class="pre">size_t</span></code> 形式。<em>pylong</em> 必须是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例。</p>
+<p>如果 <em>pylong</em> 的值超出了 <code class="xref c c-type docutils literal notranslate"><span class="pre">size_t</span></code> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错时返回  <code class="docutils literal notranslate"><span class="pre">(size_t)-1</span></code> ，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsUnsignedLongLong">
+<span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsUnsignedLongLong</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsUnsignedLongLong" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p id="index-6">返回 <em>pylong</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 <em>pylong</em> 必须是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例。</p>
+<p>如果 <em>pylong</em> 的值超出 <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错时返回 <code class="docutils literal notranslate"><span class="pre">(unsigned</span> <span class="pre">long</span> <span class="pre">long)-1</span></code>，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.1 版本发生变更: </span>现在 <em>pylong</em> 为负值会触发  <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>，而不是 <a class="reference internal" href="../library/exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsUnsignedLongMask">
+<span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsUnsignedLongMask</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsUnsignedLongMask" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 的值超出了 <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span></span> 的取值范围，则返回该值对 <code class="docutils literal notranslate"><span class="pre">ULONG_MAX</span> <span class="pre">+</span> <span class="pre">1</span></code> 求模的余数。</p>
+<p>出错时返回 <code class="docutils literal notranslate"><span class="pre">(unsigned</span> <span class="pre">long)-1</span></code>，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsUnsignedLongLongMask">
+<span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsUnsignedLongLongMask</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">obj</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsUnsignedLongLongMask" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>obj</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 表示形式。 如果 <em>obj</em> 不是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例，则会先调用其 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a> 方法（如果存在）将其转换为 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a>。</p>
+<p>如果 <em>obj</em> 的值超出了 <span class="c-expr sig sig-inline c"><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span></span> 的取值范围，则返回该值对 <code class="docutils literal notranslate"><span class="pre">ULLONG_MAX</span> <span class="pre">+</span> <span class="pre">1</span></code> 求模的余数。</p>
+<p>出错时返回 <code class="docutils literal notranslate"><span class="pre">(unsigned</span> <span class="pre">long</span> <span class="pre">long)-1</span></code>，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.10 版本发生变更: </span>此函数将不再使用 <a class="reference internal" href="../reference/datamodel.html#object.__int__" title="object.__int__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__int__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsDouble">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsDouble</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsDouble" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>pylong</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 表示形式。 <em>pylong</em> 必须是 <a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyLongObject</span></code></a> 的实例。</p>
+<p>如果 <em>pylong</em> 的值超出了 <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 的取值范围则会引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<p>出错时返回  <code class="docutils literal notranslate"><span class="pre">-1.0</span></code> ，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyLong_AsVoidPtr">
+<span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyLong_AsVoidPtr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pylong</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyLong_AsVoidPtr" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>将一个 Python 整数 <em>pylong</em> 转换为 C <span class="c-expr sig sig-inline c"><span class="kt">void</span></span> 指针。 如果 <em>pylong</em> 无法被转换，则将引发 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。 这只是为了保证将通过 <a class="reference internal" href="#c.PyLong_FromVoidPtr" title="PyLong_FromVoidPtr"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyLong_FromVoidPtr()</span></code></a> 创建的值产生一个可用的 <span class="c-expr sig sig-inline c"><span class="kt">void</span></span> 指针。</p>
+<p>出错时返回  <code class="docutils literal notranslate"><span class="pre">NULL</span></code>，请利用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 辨别具体问题。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyUnstable_Long_IsCompact">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyUnstable_Long_IsCompact</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><span class="n"><span class="pre">PyLongObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">op</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUnstable_Long_IsCompact" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="unstable-c-api warning admonition">
+<em>这是 <a class="reference internal" href="stable.html#unstable-c-api"><span class="std std-ref">不稳定 API</span></a>。它可在次发布版中不经警告地改变。</em></div>
+<p>如果 <em>op</em> 为紧凑形式则返回 1，否则返回 0。</p>
+<p>This function makes it possible for performance-critical code to implement
+a “fast path” for small integers. For compact values use
+<a class="reference internal" href="#c.PyUnstable_Long_CompactValue" title="PyUnstable_Long_CompactValue"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnstable_Long_CompactValue()</span></code></a>; for others fall back to a
+<a class="reference internal" href="#c.PyLong_AsSize_t" title="PyLong_AsSize_t"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyLong_As*</span></code></a> function or
+<a class="reference internal" href="call.html#c.PyObject_CallMethod" title="PyObject_CallMethod"><code class="xref c c-func docutils literal notranslate"><span class="pre">calling</span></code></a> <a class="reference internal" href="../library/stdtypes.html#int.to_bytes" title="int.to_bytes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">int.to_bytes()</span></code></a>.</p>
+<p>此项加速对于大多数用户来说是可以忽略的。</p>
+<p>具体有哪些值会被视为紧凑形式属于实现细节并可能发生改变。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyUnstable_Long_CompactValue">
+<a class="reference internal" href="intro.html#c.Py_ssize_t" title="Py_ssize_t"><span class="n"><span class="pre">Py_ssize_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyUnstable_Long_CompactValue</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#c.PyLongObject" title="PyLongObject"><span class="n"><span class="pre">PyLongObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">op</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyUnstable_Long_CompactValue" title="Link to this definition">¶</a><br /></dt>
+<dd><div class="unstable-c-api warning admonition">
+<em>这是 <a class="reference internal" href="stable.html#unstable-c-api"><span class="std std-ref">不稳定 API</span></a>。它可在次发布版中不经警告地改变。</em></div>
+<p>如果 <em>op</em> 为紧凑形式，如 <a class="reference internal" href="#c.PyUnstable_Long_IsCompact" title="PyUnstable_Long_IsCompact"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyUnstable_Long_IsCompact()</span></code></a> 所确定的，则返回它的值。</p>
+<p>在其他情况下，返回值是未定义的。</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="none.html"
+                          title="上一章"><code class="docutils literal notranslate"><span class="pre">None</span></code> 对象</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="bool.html"
+                          title="下一章">布尔对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/long.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="bool.html" title="布尔对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="none.html" title="None 对象"
+             >上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">整数型对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="../copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="浮点数对象" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/c-api/float.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="打包与解包函数: 打包与解包函数提供了独立于平台的高效方式来将浮点数值存储为字节串。 Pack 例程根据 C double 产生字节串，而 Unpack 例程根据这样的字节串产生 C double 。 后缀 (2, 4 or 8) 指明字节串中的字节数。 在明显使用 IEEE 754 格式的平台上这些函数是通过拷贝比特位来实现的。 在其他平台上，2 字节格式与 IEEE 754 binary..." />
+<meta property="og:image" content="/static/og-image.png" />
+<meta property="og:image:alt" content="Python documentation" />
+<meta name="description" content="打包与解包函数: 打包与解包函数提供了独立于平台的高效方式来将浮点数值存储为字节串。 Pack 例程根据 C double 产生字节串，而 Unpack 例程根据这样的字节串产生 C double 。 后缀 (2, 4 or 8) 指明字节串中的字节数。 在明显使用 IEEE 754 格式的平台上这些函数是通过拷贝比特位来实现的。 在其他平台上，2 字节格式与 IEEE 754 binary..." />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta name="theme-color" content="#3776ab" />
+
+    <title>浮点数对象 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="../static/documentation_options.js?v=67b2dffe"></script>
+    <script src="../static/doctools.js?v=9a2dae69"></script>
+    <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../static/translations.js?v=beaddf03"></script>
+    
+    <script src="../static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="../static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="复数对象" href="complex.html" />
+    <link rel="prev" title="布尔对象" href="bool.html" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/float.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../static/py.svg" />
+            <script type="text/javascript" src="../static/copybutton.js"></script>
+            <script type="text/javascript" src="../static/menu.js"></script>
+            <script type="text/javascript" src="../static/search-focus.js"></script>
+            <script type="text/javascript" src="../static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">浮点数对象</a><ul>
+<li><a class="reference internal" href="#pack-and-unpack-functions">打包与解包函数</a><ul>
+<li><a class="reference internal" href="#pack-functions">打包函数</a></li>
+<li><a class="reference internal" href="#unpack-functions">解包函数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="bool.html"
+                          title="上一章">布尔对象</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="complex.html"
+                          title="下一章">复数对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/float.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="complex.html" title="复数对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="bool.html" title="布尔对象"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">浮点数对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="floating-point-objects">
+<span id="floatobjects"></span><h1>浮点数对象<a class="headerlink" href="#floating-point-objects" title="Link to this heading">¶</a></h1>
+<dl class="c type" id="index-0">
+<dt class="sig sig-object c" id="c.PyFloatObject">
+<span class="k"><span class="pre">type</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloatObject</span></span></span><a class="headerlink" href="#c.PyFloatObject" title="Link to this definition">¶</a><br /></dt>
+<dd><p>这个C类型 <a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyObject</span></code></a> 的子类型代表一个Python浮点数对象。</p>
+</dd></dl>
+
+<dl class="c var">
+<dt class="sig sig-object c" id="c.PyFloat_Type">
+<a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><span class="n"><span class="pre">PyTypeObject</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Type</span></span></span><a class="headerlink" href="#c.PyFloat_Type" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>这是个属于C类型 <a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyTypeObject</span></code></a> 的代表Python浮点类型的实例。在Python层面的类型 <a class="reference internal" href="../library/functions.html#float" title="float"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> 是同一个对象。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Check">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Check</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Check" title="Link to this definition">¶</a><br /></dt>
+<dd><p>如果它的参数是一个 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a> 或者 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a> 的子类型则返回真值。 此函数总是会成功执行。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_CheckExact">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_CheckExact</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_CheckExact" title="Link to this definition">¶</a><br /></dt>
+<dd><p>如果它的参数是一个 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a> 但不是 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a> 的子类型则返回真值。 此函数总是会成功执行。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_FromString">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_FromString</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">str</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_FromString" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>根据字符串 <em>str</em> 的值创建一个 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a>，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_FromDouble">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_FromDouble</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_FromDouble" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>根据 <em>v</em> 创建一个 <a class="reference internal" href="#c.PyFloatObject" title="PyFloatObject"><code class="xref c c-type docutils literal notranslate"><span class="pre">PyFloatObject</span></code></a> 对象，失败时返回 <code class="docutils literal notranslate"><span class="pre">NULL</span></code>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_AsDouble">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_AsDouble</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pyfloat</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_AsDouble" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 <em>pyfloat</em> 的内容的 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 表示形式。 如果 <em>pyfloat</em> 不是一个 Python 浮点数对象但是具有 <a class="reference internal" href="../reference/datamodel.html#object.__float__" title="object.__float__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__float__()</span></code></a> 方法，则会先调用此方法来将 <em>pyfloat</em> 转换为浮点数。 如果 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__float__()</span></code> 未定义则将回退至 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。 此方法在失败时将返回 <code class="docutils literal notranslate"><span class="pre">-1.0</span></code>，因此开发者应当调用 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 来检测错误。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.8 版本发生变更: </span>如果可能将使用 <a class="reference internal" href="../reference/datamodel.html#object.__index__" title="object.__index__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__index__()</span></code></a>。</p>
+</div>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_AS_DOUBLE">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_AS_DOUBLE</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">pyfloat</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_AS_DOUBLE" title="Link to this definition">¶</a><br /></dt>
+<dd><p>返回 <em>pyfloat</em> 的 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 表示形式，但不带错误检测。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_GetInfo">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject"><span class="n"><span class="pre">PyObject</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_GetInfo</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_GetInfo" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="refcount return_new_ref">返回值：新的引用。</em><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回一个 structseq 实例，其中包含有关 float 的精度、最小值和最大值的信息。 它是头文件 <code class="file docutils literal notranslate"><span class="pre">float.h</span></code> 的一个简单包装。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_GetMax">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_GetMax</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_GetMax" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 形式的最大可表示有限浮点数 <em>DBL_MAX</em>。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_GetMin">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_GetMin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_GetMin" title="Link to this definition">¶</a><br /></dt>
+<dd><em class="stableabi"> 属于 <a class="reference internal" href="stable.html#stable"><span class="std std-ref">稳定 ABI</span></a>.</em><p>返回 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 形式的最小正规化正浮点数 <em>DBL_MIN</em>。</p>
+</dd></dl>
+
+<section id="pack-and-unpack-functions">
+<h2>打包与解包函数<a class="headerlink" href="#pack-and-unpack-functions" title="Link to this heading">¶</a></h2>
+<p>打包与解包函数提供了独立于平台的高效方式来将浮点数值存储为字节串。 Pack 例程根据 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span> 产生字节串，而 Unpack 例程根据这样的字节串产生 C <span class="c-expr sig sig-inline c"><span class="kt">double</span></span>。 后缀 (2, 4 or 8) 指明字节串中的字节数。</p>
+<p>在明显使用 IEEE 754 格式的平台上这些函数是通过拷贝比特位来实现的。 在其他平台上，2 字节格式与 IEEE 754 binary16 半精度格式相同，4 字节格式 (32 位) 与 IEEE 754 binary32 单精度格式相同，而 8 字节格式则与 IEEE 754 双精度格式相同，不过 INF 和 NaN (如果平台存在这两种值) 未得到正确处理，而试图对包含 IEEE INF 或 NaN 的字节串执行解包将会引发一个异常。</p>
+<p>在具有比 IEEE 754 所支持的更高精度，或更大动态范围的非 IEEE 平台上，不是所有的值都能被打包；在具有更低精度，或更小动态范围的非 IEEE 平台上，则不是所有的值都能被解包。 在这种情况下发生的事情有一部分将是偶然的（无奈）。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<section id="pack-functions">
+<h3>打包函数<a class="headerlink" href="#pack-functions" title="Link to this heading">¶</a></h3>
+<p>打包例程会写入 2, 4 或 8 个字节，从 <em>p</em> 开始。 <em>le</em> 是一个 <span class="c-expr sig sig-inline c"><span class="kt">int</span></span> 参数，如果你想要字节串为小端序格式 (指数部分放在后面，位于 <code class="docutils literal notranslate"><span class="pre">p+1</span></code>, <code class="docutils literal notranslate"><span class="pre">p+3</span></code> 或 <code class="docutils literal notranslate"><span class="pre">p+6</span></code> <code class="docutils literal notranslate"><span class="pre">p+7</span></code>) 则其应为非零值，如果你想要大端序格式 (指数部分放在前面，位于 <em>p</em>) 则其应为零。 <code class="xref c c-macro docutils literal notranslate"><span class="pre">PY_BIG_ENDIAN</span></code> 常量可被用于使用本机端序：在大端序处理器上等于 <code class="docutils literal notranslate"><span class="pre">1</span></code>，在小端序处理器上则等于 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+<p>返回值: 如果一切正常则为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，如果出错则为 <code class="docutils literal notranslate"><span class="pre">-1</span></code> (并会设置一个异常，最大可能为 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>)。</p>
+<p>在非 IEEE 平台上存在两个问题:</p>
+<ul class="simple">
+<li><p>如果 <em>x</em> 为 NaN 或无穷大则此函数的行为是未定义的。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-0.0</span></code> 和 <code class="docutils literal notranslate"><span class="pre">+0.0</span></code> 将产生相同的字节串。</p></li>
+</ul>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Pack2">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Pack2</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Pack2" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 C double 打包为 IEEE 754 binary16 半精度格式。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Pack4">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Pack4</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Pack4" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 C double 打包为 IEEE 754 binary32 单精度格式。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Pack8">
+<span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Pack8</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n"><span class="pre">x</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Pack8" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 C double 打包为 IEEE 754 binary64 双精度格式。</p>
+</dd></dl>
+
+</section>
+<section id="unpack-functions">
+<h3>解包函数<a class="headerlink" href="#unpack-functions" title="Link to this heading">¶</a></h3>
+<p>解包例程会读取 2, 4 或 8 个字节，从 <em>p</em> 开始。 <em>le</em> 是一个 <span class="c-expr sig sig-inline c"><span class="kt">int</span></span> 参数，如果字节串为小端序格式 (指数部门放在后面，位于 <code class="docutils literal notranslate"><span class="pre">p+1</span></code>, <code class="docutils literal notranslate"><span class="pre">p+3</span></code> 或 <code class="docutils literal notranslate"><span class="pre">p+6</span></code> 和 <code class="docutils literal notranslate"><span class="pre">p+7</span></code>) 则其应为非零值，如果为大端序格式 (指数部分放在前面，位于 <em>p</em>) 则其应为零。 <code class="xref c c-macro docutils literal notranslate"><span class="pre">PY_BIG_ENDIAN</span></code> 常量可被用于使用本机端序：在大端序处理器上等于 <code class="docutils literal notranslate"><span class="pre">1</span></code>，在小端序处理器上则等于 <code class="docutils literal notranslate"><span class="pre">0</span></code>。</p>
+<p>返回值: 解包后的 double。 出错时，返回值为 <code class="docutils literal notranslate"><span class="pre">-1.0</span></code> 且 <a class="reference internal" href="exceptions.html#c.PyErr_Occurred" title="PyErr_Occurred"><code class="xref c c-func docutils literal notranslate"><span class="pre">PyErr_Occurred()</span></code></a> 为真值 (并且会设置一个异常，最大可能为 <a class="reference internal" href="../library/exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>)。</p>
+<p>请注意在非 IEEE 平台上此函数将拒绝解包表示 NaN 或无穷大的字节串。</p>
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Unpack2">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Unpack2</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Unpack2" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 IEEE 754 binary16 半精度格式解包为 C double。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Unpack4">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Unpack4</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Unpack4" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 IEEE 754 binary32 单精度格式解包为 C double。</p>
+</dd></dl>
+
+<dl class="c function">
+<dt class="sig sig-object c" id="c.PyFloat_Unpack8">
+<span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PyFloat_Unpack8</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n"><span class="pre">p</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n"><span class="pre">le</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.PyFloat_Unpack8" title="Link to this definition">¶</a><br /></dt>
+<dd><p>将 IEEE 754 binary64 双精度格式解包为 C double。</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../contents.html">目录</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">浮点数对象</a><ul>
+<li><a class="reference internal" href="#pack-and-unpack-functions">打包与解包函数</a><ul>
+<li><a class="reference internal" href="#pack-functions">打包函数</a></li>
+<li><a class="reference internal" href="#unpack-functions">解包函数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="bool.html"
+                          title="上一章">布尔对象</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="complex.html"
+                          title="下一章">复数对象</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/c-api/float.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="complex.html" title="复数对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="bool.html" title="布尔对象"
+             >上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">浮点数对象</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="../copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

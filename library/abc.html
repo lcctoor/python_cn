@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="abc --- 抽象基类" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.python.org/3/library/abc.html" />
+<meta property="og:site_name" content="Python documentation" />
+<meta property="og:description" content="源代码： Lib/abc.py 该模块提供了在 Python 中定义 抽象基类(ABC) 的组件，在 PEP 3119 中已有概述。查看 PEP 文档了解为什么需要在 Python 中增加这个模块。（也可查看 PEP 3141 以及 numbers 模块了解基于 ABC 的数字类型继承关系。） collections 模块中有一些派生自 ABC 的实体类；当然，这些类还可以进一步被派生。 此..." />
+<meta property="og:image" content="/static/og-image.png" />
+<meta property="og:image:alt" content="Python documentation" />
+<meta name="description" content="源代码： Lib/abc.py 该模块提供了在 Python 中定义 抽象基类(ABC) 的组件，在 PEP 3119 中已有概述。查看 PEP 文档了解为什么需要在 Python 中增加这个模块。（也可查看 PEP 3141 以及 numbers 模块了解基于 ABC 的数字类型继承关系。） collections 模块中有一些派生自 ABC 的实体类；当然，这些类还可以进一步被派生。 此..." />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta name="theme-color" content="#3776ab" />
+
+    <title>abc --- 抽象基类 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="../static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="../static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="../static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="../static/documentation_options.js?v=67b2dffe"></script>
+    <script src="../static/doctools.js?v=9a2dae69"></script>
+    <script src="../static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../static/translations.js?v=beaddf03"></script>
+    
+    <script src="../static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="../static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="atexit --- 退出处理器" href="atexit.html" />
+    <link rel="prev" title="contextlib --- 为 with语句上下文提供的工具" href="contextlib.html" />
+    <link rel="canonical" href="https://docs.python.org/3/library/abc.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="../static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="../static/py.svg" />
+            <script type="text/javascript" src="../static/copybutton.js"></script>
+            <script type="text/javascript" src="../static/menu.js"></script>
+            <script type="text/javascript" src="../static/search-focus.js"></script>
+            <script type="text/javascript" src="../static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="../static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="../search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="contextlib.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextlib</span></code> --- 为 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code>语句上下文提供的工具</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> --- 退出处理器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/abc.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit --- 退出处理器"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="contextlib.html" title="contextlib --- 为 with语句上下文提供的工具"
+             accesskey="P">上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" accesskey="U">Python 运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> --- 抽象基类</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-abc">
+<span id="abc-abstract-base-classes"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> --- 抽象基类<a class="headerlink" href="#module-abc" title="Link to this heading">¶</a></h1>
+<p><strong>源代码：</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.12/Lib/abc.py">Lib/abc.py</a></p>
+<hr class="docutils" />
+<p>该模块提供了在 Python 中定义 <a class="reference internal" href="../glossary.html#term-abstract-base-class"><span class="xref std std-term">抽象基类</span></a> (ABC) 的组件，在 <span class="target" id="index-4"></span><a class="pep reference external" href="https://peps.python.org/pep-3119/"><strong>PEP 3119</strong></a> 中已有概述。查看 PEP 文档了解为什么需要在 Python 中增加这个模块。（也可查看 <span class="target" id="index-5"></span><a class="pep reference external" href="https://peps.python.org/pep-3141/"><strong>PEP 3141</strong></a> 以及 <a class="reference internal" href="numbers.html#module-numbers" title="numbers: Numeric abstract base classes (Complex, Real, Integral, etc.)."><code class="xref py py-mod docutils literal notranslate"><span class="pre">numbers</span></code></a> 模块了解基于 ABC 的数字类型继承关系。）</p>
+<p><a class="reference internal" href="collections.html#module-collections" title="collections: Container datatypes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code></a> 模块中有一些派生自 ABC 的实体类；当然，这些类还可以进一步被派生。 此外，<a class="reference internal" href="collections.abc.html#module-collections.abc" title="collections.abc: Abstract base classes for containers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code></a> 子模块中有一些可被用于测试一个类或实例是否提供了特定接口的 ABC，例如，它是否为 <a class="reference internal" href="../glossary.html#term-hashable"><span class="xref std std-term">hashable</span></a> 或者是否为 <a class="reference internal" href="../glossary.html#term-mapping"><span class="xref std std-term">mapping</span></a> 等。</p>
+<p>该模块提供了一个元类 <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a>，可以用来定义抽象类，另外还提供一个工具类 <a class="reference internal" href="#abc.ABC" title="abc.ABC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a>，可以用它以继承的方式定义抽象基类。</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="abc.ABC">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">ABC</span></span><a class="headerlink" href="#abc.ABC" title="Link to this definition">¶</a></dt>
+<dd><p>一个使用 <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a> 作为元类的辅助类。 使用这个类，可以通过简单地从 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> 派生的方式创建抽象基类，这将避免时常令人混淆的元类用法，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="k">class</span> <span class="nc">MyABC</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>请注意 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> 的类型仍然是 <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a>，因此继承 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code> 仍然需要考虑使用元类的注意事项，比如可能会导致元类冲突的多重继承。 你也可以通过传入 metaclass 关键字并直接使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> 来定义抽象基类，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
+
+<span class="k">class</span> <span class="nc">MyABC</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="abc.ABCMeta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">ABCMeta</span></span><a class="headerlink" href="#abc.ABCMeta" title="Link to this definition">¶</a></dt>
+<dd><p>用于定义抽象基类（ABC）的元类。</p>
+<p>使用该元类以创建抽象基类。抽象基类可以像 mix-in 类一样直接被子类继承。你也可以将不相关的具体类（包括内建类）和抽象基类注册为“抽象子类” —— 这些类以及它们的子类会被内建函数 <a class="reference internal" href="functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> 识别为对应的抽象基类的子类，但是该抽象基类不会出现在其 MRO（Method Resolution Order，方法解析顺序）中，抽象基类中实现的方法也不可调用（即使通过 <a class="reference internal" href="functions.html#super" title="super"><code class="xref py py-func docutils literal notranslate"><span class="pre">super()</span></code></a> 调用也不行）。<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
+<p>使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> 元类创建的类具有以下方法：</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="abc.ABCMeta.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subclass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.ABCMeta.register" title="Link to this definition">¶</a></dt>
+<dd><p>将 <em>subclass</em> 注册为该 ABC 的“虚拟子类”。 例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+
+<span class="k">class</span> <span class="nc">MyABC</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">MyABC</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">MyABC</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">((),</span> <span class="n">MyABC</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.3 版本发生变更: </span>返回注册的子类，使其能够作为类装饰器。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版本发生变更: </span>要检测对 <code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code> 的调用，你可以使用 <a class="reference internal" href="#abc.get_cache_token" title="abc.get_cache_token"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_cache_token()</span></code></a> 函数。</p>
+</div>
+</dd></dl>
+
+<p>你也可以在虚基类中重写这个方法。</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="abc.ABCMeta.__subclasshook__">
+<span class="sig-name descname"><span class="pre">__subclasshook__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subclass</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.ABCMeta.__subclasshook__" title="Link to this definition">¶</a></dt>
+<dd><p>（必须定义为类方法。）</p>
+<p>检查 <em>subclass</em> 是否是该 ABC 的子类。 这意味着你可以进一步定制 <a class="reference internal" href="functions.html#issubclass" title="issubclass"><code class="xref py py-func docutils literal notranslate"><span class="pre">issubclass()</span></code></a> 的行为而无需在每个你希望作为该 ABC 的子类的类上调用 <a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a>。 （这个类方法是在该 ABC 的 <a class="reference internal" href="../reference/datamodel.html#class.__subclasscheck__" title="class.__subclasscheck__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasscheck__()</span></code></a> 方法上被调用的。）</p>
+<p>该方法应为返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> , <code class="docutils literal notranslate"><span class="pre">False</span></code> 或 <a class="reference internal" href="constants.html#NotImplemented" title="NotImplemented"><code class="xref py py-data docutils literal notranslate"><span class="pre">NotImplemented</span></code></a> 。如果返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，则 <em>子类</em> 被视为该抽象基类的子类 。如果返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> ，则 <em>子类</em> 不被视为此抽象基类的子类 ，即使它通常是。  如果返回 <code class="xref py py-data docutils literal notranslate"><span class="pre">NotImplemented</span></code> ，则继续按照常规机制检查子类 。</p>
+</dd></dl>
+
+<p>为了对这些概念做一演示，请看以下定义 ABC 的示例：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">MyIterable</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__subclasshook__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="n">MyIterable</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="s2">&quot;__iter__&quot;</span> <span class="ow">in</span> <span class="n">B</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">for</span> <span class="n">B</span> <span class="ow">in</span> <span class="n">C</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+<span class="n">MyIterable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Foo</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ABC <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code> 将标准的迭代方法 <a class="reference internal" href="stdtypes.html#iterator.__iter__" title="iterator.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> 定义为一个抽象方法。 这里给出的实现仍可在子类中被调用。 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_iterator()</span></code> 方法也是 <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code> 抽象基类的一部分，但它并非必须被非抽象的派生类重写。</p>
+<p>这里定义的 <a class="reference internal" href="#abc.ABCMeta.__subclasshook__" title="abc.ABCMeta.__subclasshook__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__subclasshook__()</span></code></a> 类方法指明了任何在其 <a class="reference internal" href="stdtypes.html#object.__dict__" title="object.__dict__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code></a> (或在其通过 <a class="reference internal" href="stdtypes.html#class.__mro__" title="class.__mro__"><code class="xref py py-attr docutils literal notranslate"><span class="pre">__mro__</span></code></a> 列表访问的基类) 中具有 <a class="reference internal" href="stdtypes.html#iterator.__iter__" title="iterator.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> 方法的类也都会被视为 <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code>。</p>
+<p>最后，末尾的行使得 <code class="docutils literal notranslate"><span class="pre">Foo</span></code> 成为 <code class="docutils literal notranslate"><span class="pre">MyIterable</span></code> 的一个虚子类，即使它没有定义 <a class="reference internal" href="stdtypes.html#iterator.__iter__" title="iterator.__iter__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__()</span></code></a> 方法（它使用了以 <a class="reference internal" href="../reference/datamodel.html#object.__len__" title="object.__len__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code></a> 和 <a class="reference internal" href="../reference/datamodel.html#object.__getitem__" title="object.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> 术语定义的旧式可迭代协议）。 注意这将不会使 <code class="docutils literal notranslate"><span class="pre">get_iterator</span></code> 成为对 <code class="docutils literal notranslate"><span class="pre">Foo</span></code> 可用的方法，所以它将被单独地提供。</p>
+</dd></dl>
+
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> 模块还提供了下列装饰器：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractmethod</span></span><a class="headerlink" href="#abc.abstractmethod" title="Link to this definition">¶</a></dt>
+<dd><p>用于声明抽象方法的装饰器。</p>
+<p>使用此装饰器要求类的元类是 <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a> 或是其派生类。 一个具有派生自 <code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code> 的元类的类无法被实例化，除非它全部的抽象方法和特征属性均已被重载。 抽象方法可通过任何普通的 'super' 调用机制来调用。 <code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code> 可被用于声明特征属性和描述器的抽象方法。</p>
+<p>动态地添加抽象方法到一个类，或尝试在方法或类被创建后修改其抽象状态等操作仅在使用 <a class="reference internal" href="#abc.update_abstractmethods" title="abc.update_abstractmethods"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_abstractmethods()</span></code></a> 函数时受到支持。 <code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code> 只会影响使用常规继承所派生的子类；通过 ABC 的 <a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register()</span></code></a> 方法注册的“虚子类”不会受到影响。</p>
+<p>当 <code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code> 与其他方法描述器配合应用时，它应当被应用为最内层的装饰器，如以下用法示例所示:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg1</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_classmethod</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_staticmethod</span><span class="p">(</span><span class="n">arg3</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@my_abstract_property</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_set_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_x</span><span class="p">,</span> <span class="n">_set_x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了正确地与抽象基类机制互操作，描述器必须使用 <code class="xref py py-attr docutils literal notranslate"><span class="pre">__isabstractmethod__</span></code> 将自身标识为抽象的。 通常，如果组成描述器的任一方法是抽象的，那么此属性就应为 <code class="docutils literal notranslate"><span class="pre">True</span></code>。 例如，Python 的内置 <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></a> 所做的就等价于:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Descriptor</span><span class="p">:</span>
+    <span class="o">...</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__isabstractmethod__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;__isabstractmethod__&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span>
+                   <span class="n">f</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fdel</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>不同于 Java 抽象方法，这些抽象方法可能具有一个实现。 这个实现可在重写它的类上通过 <a class="reference internal" href="functions.html#super" title="super"><code class="xref py py-func docutils literal notranslate"><span class="pre">super()</span></code></a> 机制来调用。 这在使用协作多重继承的框架中可以被用作 super 调用的一个终点。</p>
+</div>
+</dd></dl>
+
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> 模块还支持下列旧式装饰器：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractclassmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractclassmethod</span></span><a class="headerlink" href="#abc.abstractclassmethod" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">自 3.3 版本弃用: </span>现在可以让 <a class="reference internal" href="functions.html#classmethod" title="classmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">classmethod</span></code></a> 配合 <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a> 使用，使得此装饰器变得冗余。</p>
+</div>
+<p>内置 <a class="reference internal" href="functions.html#classmethod" title="classmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">classmethod()</span></code></a> 的子类，指明一个抽象类方法。 在其他方面它都类似于 <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a>。</p>
+<p>这个特例已被弃用，因为现在当 <a class="reference internal" href="functions.html#classmethod" title="classmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">classmethod()</span></code></a> 装饰器应用于抽象方法时它会被正确地标识为抽象的:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_classmethod</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractstaticmethod">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractstaticmethod</span></span><a class="headerlink" href="#abc.abstractstaticmethod" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">自 3.3 版本弃用: </span>现在可以让 <a class="reference internal" href="functions.html#staticmethod" title="staticmethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">staticmethod</span></code></a> 配合 <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a> 使用，使得此装饰器变得冗余。</p>
+</div>
+<p>内置 <a class="reference internal" href="functions.html#staticmethod" title="staticmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">staticmethod()</span></code></a> 的子类，指明一个抽象静态方法。 在其他方面它都类似于 <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a>。</p>
+<p>这个特例已被弃用，因为现在当 <a class="reference internal" href="functions.html#staticmethod" title="staticmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">staticmethod()</span></code></a> 装饰器应用于抽象方法时它会被正确地标识为抽象的:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_staticmethod</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.abstractproperty">
+<span class="sig-prename descclassname"><span class="pre">&#64;</span></span><span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">abstractproperty</span></span><a class="headerlink" href="#abc.abstractproperty" title="Link to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">自 3.3 版本弃用: </span>现在可以让 <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-class docutils literal notranslate"><span class="pre">property</span></code></a>, <a class="reference internal" href="functions.html#property.getter" title="property.getter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">property.getter()</span></code></a>, <a class="reference internal" href="functions.html#property.setter" title="property.setter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">property.setter()</span></code></a> 和 <a class="reference internal" href="functions.html#property.deleter" title="property.deleter"><code class="xref py py-meth docutils literal notranslate"><span class="pre">property.deleter()</span></code></a> 配合 <a class="reference internal" href="#abc.abstractmethod" title="abc.abstractmethod"><code class="xref py py-func docutils literal notranslate"><span class="pre">abstractmethod()</span></code></a> 使用，使得此装饰器变得冗余。</p>
+</div>
+<p>内置 <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code></a> 的子类，指明一个抽象特性属性。</p>
+<p>这个特例已被弃用，因为现在当 <a class="reference internal" href="functions.html#property" title="property"><code class="xref py py-func docutils literal notranslate"><span class="pre">property()</span></code></a> 装饰器应用于抽象方法时它会被正确地标识为抽象的:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">my_abstract_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>上面的例子定义了一个只读特征属性；你也可以通过适当地将一个或多个下层方法标记为抽象的来定义可读写的抽象特征属性:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">C</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="nd">@x</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>如果只有某些组件是抽象的，则只需更新那些组件即可在子类中创建具体的特征属性:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="nd">@C</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> 模块还提供了下列函数：</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.get_cache_token">
+<span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">get_cache_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#abc.get_cache_token" title="Link to this definition">¶</a></dt>
+<dd><p>返回当前抽象基类的缓存令牌</p>
+<p>此令牌是一个不透明对象（支持相等性测试），用于为虚子类标识抽象基类缓存的当前版本。 此令牌会在任何 ABC 上每次调用 <a class="reference internal" href="#abc.ABCMeta.register" title="abc.ABCMeta.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ABCMeta.register()</span></code></a> 时发生更改。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="abc.update_abstractmethods">
+<span class="sig-prename descclassname"><span class="pre">abc.</span></span><span class="sig-name descname"><span class="pre">update_abstractmethods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#abc.update_abstractmethods" title="Link to this definition">¶</a></dt>
+<dd><p>重新计算一个抽象类的抽象状态的函数。 如果一个类的抽象方法在类被创建后被实现或被修改则应当调用此函数。 通常，此函数应当在一个类装饰器内部被调用。</p>
+<p>返回 <em>cls</em>，使其能够用作类装饰器。</p>
+<p>如果 <em>cls</em> 不是 <a class="reference internal" href="#abc.ABCMeta" title="abc.ABCMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a> 的子类，则不做任何操作。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>此函数会假定 <em>cls</em> 的上级类已经被更新。 它不会更新任何子类。</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
+</div>
+</dd></dl>
+
+<p class="rubric">备注</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>C++ 程序员需要注意：Python 中虚基类的概念和 C++ 中的并不相同。</p>
+</aside>
+</aside>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>上一主题</h4>
+    <p class="topless"><a href="contextlib.html"
+                          title="上一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">contextlib</span></code> --- 为 <code class="xref std std-keyword docutils literal notranslate"><span class="pre">with</span></code>语句上下文提供的工具</a></p>
+  </div>
+  <div>
+    <h4>下一主题</h4>
+    <p class="topless"><a href="atexit.html"
+                          title="下一章"><code class="xref py py-mod docutils literal notranslate"><span class="pre">atexit</span></code> --- 退出处理器</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>当前页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">报告 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/main/Doc/library/abc.rst"
+            rel="nofollow">显示源码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="atexit.html" title="atexit --- 退出处理器"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="contextlib.html" title="contextlib --- 为 with语句上下文提供的工具"
+             >上一页</a> |</li>
+
+          <li><img src="../static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="../index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="python.html" >Python 运行时服务</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><code class="xref py py-mod docutils literal notranslate"><span class="pre">abc</span></code> --- 抽象基类</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="../copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

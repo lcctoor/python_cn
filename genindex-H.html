@@ -1,0 +1,792 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>索引 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="static/documentation_options.js?v=67b2dffe"></script>
+    <script src="static/doctools.js?v=9a2dae69"></script>
+    <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="static/translations.js?v=beaddf03"></script>
+    
+    <script src="static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="about.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="copyright" title="版权所有" href="copyright.html" />
+    <link rel="canonical" href="https://docs.python.org/3/genindex-H.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="static/py.svg" />
+            <script type="text/javascript" src="static/copybutton.js"></script>
+            <script type="text/javascript" src="static/menu.js"></script>
+            <script type="text/javascript" src="static/search-focus.js"></script>
+            <script type="text/javascript" src="static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+
+          <li><img src="static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">索引</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+<h1 id="index">索引 &ndash; H</h1>
+
+<table style="width: 100%" class="indextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="library/collections.abc.html#collections.abc.Hashable">Hashable（collections.abc 中的类）</a>
+</li>
+      <li><a href="library/typing.html#typing.Hashable">Hashable（typing 中的类）</a>
+</li>
+      <li><a href="library/logging.html#logging.Logger.hasHandlers">hasHandlers() （logging.Logger 方法）</a>
+</li>
+      <li><a href="c-api/typeobj.html#c.hashfunc">hashfunc（C type）</a>
+</li>
+      <li>
+    hashlib
+
+      <ul>
+        <li><a href="library/hashlib.html#module-hashlib">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/dis.html#dis.hasjabs">hasjabs()（在 dis 模块中）</a>
+</li>
+      <li><a href="library/dis.html#dis.hasjrel">hasjrel()（在 dis 模块中）</a>
+</li>
+      <li><a href="library/dis.html#dis.haslocal">haslocal()（在 dis 模块中）</a>
+</li>
+      <li><a href="library/dis.html#dis.hasname">hasname()（在 dis 模块中）</a>
+</li>
+      <li><a href="library/dis.html#opcode-HAVE_ARGUMENT">HAVE_ARGUMENT (opcode)</a>
+</li>
+      <li><a href="library/decimal.html#decimal.HAVE_CONTEXTVAR">HAVE_CONTEXTVAR()（在 decimal 模块中）</a>
+</li>
+      <li><a href="library/test.html#test.support.HAVE_DOCSTRINGS">HAVE_DOCSTRINGS()（在 test.support 模块中）</a>
+</li>
+      <li><a href="library/decimal.html#decimal.HAVE_THREADS">HAVE_THREADS()（在 decimal 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HCI_DATA_DIR">HCI_DATA_DIR()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HCI_FILTER">HCI_FILTER()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HCI_TIME_STAMP">HCI_TIME_STAMP()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/nntplib.html#nntplib.NNTP.head">head() （nntplib.NNTP 方法）</a>
+</li>
+      <li><a href="library/email.charset.html#email.charset.Charset.header_encode">header_encode() （email.charset.Charset 方法）</a>
+</li>
+      <li><a href="library/email.charset.html#email.charset.Charset.header_encode_lines">header_encode_lines() （email.charset.Charset 方法）</a>
+</li>
+      <li><a href="library/email.charset.html#email.charset.Charset.header_encoding">header_encoding（email.charset.Charset 属性）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.EmailPolicy.header_factory">header_factory（email.policy.EmailPolicy 属性）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Compat32.header_fetch_parse">header_fetch_parse() （email.policy.Compat32 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.EmailPolicy.header_fetch_parse">header_fetch_parse() （email.policy.EmailPolicy 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Policy.header_fetch_parse">header_fetch_parse() （email.policy.Policy 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.Request.header_items">header_items() （urllib.request.Request 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.EmailPolicy.header_max_count">header_max_count() （email.policy.EmailPolicy 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Policy.header_max_count">header_max_count() （email.policy.Policy 方法）</a>
+</li>
+      <li><a href="library/zipfile.html#zipfile.ZipInfo.header_offset">header_offset（zipfile.ZipInfo 属性）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Compat32.header_source_parse">header_source_parse() （email.policy.Compat32 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.EmailPolicy.header_source_parse">header_source_parse() （email.policy.EmailPolicy 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Policy.header_source_parse">header_source_parse() （email.policy.Policy 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Compat32.header_store_parse">header_store_parse() （email.policy.Compat32 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.EmailPolicy.header_store_parse">header_store_parse() （email.policy.EmailPolicy 方法）</a>
+</li>
+      <li><a href="library/email.policy.html#email.policy.Policy.header_store_parse">header_store_parse() （email.policy.Policy 方法）</a>
+</li>
+      <li><a href="library/email.errors.html#email.errors.HeaderDefect">HeaderDefect</a>
+</li>
+      <li><a href="library/tarfile.html#tarfile.HeaderError">HeaderError</a>
+</li>
+      <li><a href="library/email.errors.html#email.errors.HeaderParseError">HeaderParseError</a>
+</li>
+      <li><a href="library/email.parser.html#email.parser.HeaderParser">HeaderParser（email.parser 中的类）</a>
+</li>
+      <li><a href="library/email.headerregistry.html#email.headerregistry.HeaderRegistry">HeaderRegistry（email.headerregistry 中的类）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPResponse.headers">headers（http.client.HTTPResponse 属性）</a>
+</li>
+      <li><a href="library/http.server.html#http.server.BaseHTTPRequestHandler.headers">headers（http.server.BaseHTTPRequestHandler 属性）</a>
+</li>
+      <li><a href="library/urllib.error.html#urllib.error.HTTPError.headers">headers（urllib.error.HTTPError 属性）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.response.addinfourl.headers">headers（urllib.response.addinfourl 属性）</a>
+</li>
+      <li><a href="library/wsgiref.html#wsgiref.headers.Headers">Headers（wsgiref.headers 中的类）</a>
+</li>
+      <li><a href="library/xmlrpc.client.html#xmlrpc.client.ProtocolError.headers">headers（xmlrpc.client.ProtocolError 属性）</a>
+</li>
+      <li><a href="library/email.header.html#email.header.Header">Header（email.header 中的类）</a>
+</li>
+      <li><a href="library/tkinter.ttk.html#tkinter.ttk.Treeview.heading">heading() （tkinter.ttk.Treeview 方法）</a>
+</li>
+      <li><a href="library/turtle.html#turtle.heading">heading()（在 turtle 模块中）</a>
+</li>
+      <li><a href="library/heapq.html#heapq.heapify">heapify()（在 heapq 模块中）</a>
+</li>
+      <li><a href="library/msvcrt.html#msvcrt.heapmin">heapmin()（在 msvcrt 模块中）</a>
+</li>
+      <li><a href="library/heapq.html#heapq.heappop">heappop()（在 heapq 模块中）</a>
+</li>
+      <li><a href="library/heapq.html#heapq.heappush">heappush()（在 heapq 模块中）</a>
+</li>
+      <li><a href="library/heapq.html#heapq.heappushpop">heappushpop()（在 heapq 模块中）</a>
+</li>
+      <li>
+    heapq
+
+      <ul>
+        <li><a href="library/heapq.html#module-heapq">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/heapq.html#heapq.heapreplace">heapreplace()（在 heapq 模块中）</a>
+</li>
+      <li><a href="library/smtplib.html#smtplib.SMTP.helo">helo() （smtplib.SMTP 方法）</a>
+</li>
+      <li>
+    help
+
+      <ul>
+        <li><a href="tutorial/stdlib.html#index-0">内置函数</a>
+</li>
+        <li><a href="library/pydoc.html#index-0">在线</a>
+</li>
+      </ul></li>
+      <li><a href="library/pdb.html#pdbcommand-help">help (pdb command)</a>
+</li>
+      <li>
+    help()
+
+      <ul>
+        <li><a href="library/functions.html#help">built-in function</a>
+</li>
+      </ul></li>
+      <li><a href="library/nntplib.html#nntplib.NNTP.help">help() （nntplib.NNTP 方法）</a>
+</li>
+      <li><a href="library/optparse.html#optparse.Option.help">help（optparse.Option 属性）</a>
+</li>
+      <li><a href="library/socket.html#socket.herror">herror</a>
+</li>
+      <li>
+    hex()
+
+      <ul>
+        <li><a href="library/functions.html#hex">built-in function</a>
+</li>
+      </ul></li>
+      <li><a href="library/stdtypes.html#bytearray.hex">hex() （bytearray 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#bytes.hex">hex() （bytes 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#float.hex">hex() （float 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#memoryview.hex">hex() （memoryview 方法）</a>
+</li>
+      <li><a href="library/hashlib.html#hashlib.hash.hexdigest">hexdigest() （hashlib.hash 方法）</a>
+</li>
+      <li><a href="library/hashlib.html#hashlib.shake.hexdigest">hexdigest() （hashlib.shake 方法）</a>
+</li>
+      <li><a href="library/hmac.html#hmac.HMAC.hexdigest">hexdigest() （hmac.HMAC 方法）</a>
+</li>
+      <li><a href="library/string.html#string.hexdigits">hexdigits()（在 string 模块中）</a>
+</li>
+      <li><a href="library/binascii.html#binascii.hexlify">hexlify()（在 binascii 模块中）</a>
+</li>
+      <li><a href="library/sys.html#sys.hexversion">hexversion()（在 sys 模块中）</a>
+</li>
+      <li><a href="library/uuid.html#uuid.UUID.hex">hex（uuid.UUID 属性）</a>
+</li>
+      <li><a href="library/curses.panel.html#curses.panel.Panel.hidden">hidden() （curses.panel.Panel 方法）</a>
+</li>
+      <li><a href="library/curses.panel.html#curses.panel.Panel.hide">hide() （curses.panel.Panel 方法）</a>
+</li>
+      <li><a href="library/tkinter.ttk.html#tkinter.ttk.Notebook.hide">hide() （tkinter.ttk.Notebook 方法）</a>
+</li>
+      <li><a href="library/http.cookiejar.html#http.cookiejar.CookiePolicy.hide_cookie2">hide_cookie2（http.cookiejar.CookiePolicy 属性）</a>
+</li>
+      <li><a href="library/turtle.html#turtle.hideturtle">hideturtle()（在 turtle 模块中）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.HierarchyRequestErr">HierarchyRequestErr</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.HIGH_PRIORITY_CLASS">HIGH_PRIORITY_CLASS()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/pickle.html#pickle.HIGHEST_PROTOCOL">HIGHEST_PROTOCOL()（在 pickle 模块中）</a>
+</li>
+      <li><a href="library/bdb.html#bdb.Breakpoint.hits">hits（bdb.Breakpoint 属性）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_CLASSES_ROOT">HKEY_CLASSES_ROOT()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_CURRENT_CONFIG">HKEY_CURRENT_CONFIG()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_CURRENT_USER">HKEY_CURRENT_USER()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_DYN_DATA">HKEY_DYN_DATA()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_LOCAL_MACHINE">HKEY_LOCAL_MACHINE()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_PERFORMANCE_DATA">HKEY_PERFORMANCE_DATA()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.HKEY_USERS">HKEY_USERS()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/curses.html#curses.window.hline">hline() （curses.window 方法）</a>
+</li>
+      <li><a href="library/tkinter.tix.html#tkinter.tix.HList">HList（tkinter.tix 中的类）</a>
+</li>
+      <li><a href="library/colorsys.html#colorsys.hls_to_rgb">hls_to_rgb()（在 colorsys 模块中）</a>
+</li>
+      <li>
+    hmac
+
+      <ul>
+        <li><a href="library/hmac.html#module-hmac">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/os.path.html#index-16">HOME</a>, <a href="library/os.path.html#index-21">[1]</a>, <a href="library/tkinter.html#index-9">[2]</a>, <a href="whatsnew/3.8.html#index-67">[3]</a>, <a href="whatsnew/3.8.html#index-74">[4]</a>, <a href="whatsnew/changelog.html#index-202">[5]</a>, <a href="whatsnew/changelog.html#index-203">[6]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="library/pathlib.html#pathlib.Path.home">home()（pathlib.Path 类方法）</a>
+</li>
+      <li><a href="library/turtle.html#turtle.home">home()（在 turtle 模块中）</a>
+</li>
+      <li><a href="library/os.path.html#index-19">HOMEDRIVE</a>
+</li>
+      <li><a href="library/os.path.html#index-18">HOMEPATH</a>
+</li>
+      <li><a href="library/fileinput.html#fileinput.hook_compressed">hook_compressed()（在 fileinput 模块中）</a>
+</li>
+      <li><a href="library/fileinput.html#fileinput.hook_encoded">hook_encoded()（在 fileinput 模块中）</a>
+</li>
+      <li><a href="library/ipaddress.html#ipaddress.IPv4Network.hostmask">hostmask（ipaddress.IPv4Network 属性）</a>
+</li>
+      <li><a href="library/ipaddress.html#ipaddress.IPv6Network.hostmask">hostmask（ipaddress.IPv6Network 属性）</a>
+</li>
+      <li><a href="library/ssl.html#ssl.SSLContext.hostname_checks_common_name">hostname_checks_common_name（ssl.SSLContext 属性）</a>
+</li>
+      <li><a href="library/ipaddress.html#ipaddress.IPv4Network.hosts">hosts() （ipaddress.IPv4Network 方法）</a>
+</li>
+      <li><a href="library/ipaddress.html#ipaddress.IPv6Network.hosts">hosts() （ipaddress.IPv6Network 方法）</a>
+</li>
+      <li><a href="library/netrc.html#netrc.netrc.hosts">hosts（netrc.netrc 属性）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.Request.host">host（urllib.request.Request 属性）</a>
+</li>
+      <li><a href="library/datetime.html#datetime.datetime.hour">hour（datetime.datetime 属性）</a>
+</li>
+      <li><a href="library/datetime.html#datetime.time.hour">hour（datetime.time 属性）</a>
+</li>
+      <li><a href="library/ctypes.html#ctypes.HRESULT">HRESULT（ctypes 中的类）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.STARTUPINFO.hStdError">hStdError（subprocess.STARTUPINFO 属性）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.STARTUPINFO.hStdInput">hStdInput（subprocess.STARTUPINFO 属性）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.STARTUPINFO.hStdOutput">hStdOutput（subprocess.STARTUPINFO 属性）</a>
+</li>
+      <li><a href="library/colorsys.html#colorsys.hsv_to_rgb">hsv_to_rgb()（在 colorsys 模块中）</a>
+</li>
+      <li><a href="library/curses.ascii.html#curses.ascii.HT">HT()（在 curses.ascii 模块中）</a>
+</li>
+      <li><a href="library/turtle.html#turtle.ht">ht()（在 turtle 模块中）</a>
+</li>
+      <li><a href="library/html.parser.html#index-0">HTML</a>, <a href="library/urllib.request.html#index-10">[1]</a>
+</li>
+      <li>
+    html
+
+      <ul>
+        <li><a href="library/html.html#module-html">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/cgitb.html#cgitb.html">html()（在 cgitb 模块中）</a>
+</li>
+      <li>
+    html.entities
+
+      <ul>
+        <li><a href="library/html.entities.html#module-html.entities">module</a>
+</li>
+      </ul></li>
+      <li>
+    html.parser
+
+      <ul>
+        <li><a href="library/html.parser.html#module-html.parser">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/html.entities.html#html.entities.html5">html5()（在 html.entities 模块中）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar">HTMLCalendar（calendar 中的类）</a>
+</li>
+      <li><a href="library/difflib.html#difflib.HtmlDiff">HtmlDiff（difflib 中的类）</a>
+</li>
+      <li><a href="library/html.parser.html#html.parser.HTMLParser">HTMLParser（html.parser 中的类）</a>
+</li>
+      <li><a href="library/socket.html#socket.htonl">htonl()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.htons">htons()（在 socket 模块中）</a>
+</li>
+      <li>
+    HTTP
+
+      <ul>
+        <li><a href="library/http.html#index-0">http (标准模块)</a>
+</li>
+        <li><a href="library/http.client.html#index-0">http.client (标准模块)</a>
+</li>
+        <li><a href="library/cgi.html#index-0">协议</a>, <a href="library/http.client.html#index-0">[1]</a>, <a href="library/http.html#index-0">[2]</a>, <a href="library/http.server.html#index-0">[3]</a>, <a href="library/urllib.request.html#index-10">[4]</a>, <a href="library/urllib.request.html#index-9">[5]</a>
+</li>
+      </ul></li>
+      <li>
+    http
+
+      <ul>
+        <li><a href="library/http.html#module-http">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/email.policy.html#email.policy.HTTP">HTTP()（在 email.policy 模块中）</a>
+</li>
+      <li>
+    http.client
+
+      <ul>
+        <li><a href="library/http.client.html#module-http.client">module</a>
+</li>
+      </ul></li>
+      <li>
+    http.cookiejar
+
+      <ul>
+        <li><a href="library/http.cookiejar.html#module-http.cookiejar">module</a>
+</li>
+      </ul></li>
+      <li>
+    http.cookies
+
+      <ul>
+        <li><a href="library/http.cookies.html#module-http.cookies">module</a>
+</li>
+      </ul></li>
+      <li>
+    http.server
+
+      <ul>
+        <li><a href="library/http.server.html#module-http.server">module</a>
+</li>
+        <li><a href="library/http.server.html#index-3">安全</a>
+</li>
+      </ul></li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_301">http_error_301() （urllib.request.HTTPRedirectHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_302">http_error_302() （urllib.request.HTTPRedirectHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_303">http_error_303() （urllib.request.HTTPRedirectHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_307">http_error_307() （urllib.request.HTTPRedirectHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_308">http_error_308() （urllib.request.HTTPRedirectHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPBasicAuthHandler.http_error_401">http_error_401() （urllib.request.HTTPBasicAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPDigestAuthHandler.http_error_401">http_error_401() （urllib.request.HTTPDigestAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.ProxyBasicAuthHandler.http_error_407">http_error_407() （urllib.request.ProxyBasicAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.ProxyDigestAuthHandler.http_error_407">http_error_407() （urllib.request.ProxyDigestAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.AbstractBasicAuthHandler.http_error_auth_reqed">http_error_auth_reqed() （urllib.request.AbstractBasicAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.AbstractDigestAuthHandler.http_error_auth_reqed">http_error_auth_reqed() （urllib.request.AbstractDigestAuthHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.BaseHandler.http_error_default">http_error_default() （urllib.request.BaseHandler 方法）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPHandler.http_open">http_open() （urllib.request.HTTPHandler 方法）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTP_PORT">HTTP_PORT()（在 http.client 模块中）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPErrorProcessor.http_response">http_response() （urllib.request.HTTPErrorProcessor 方法）</a>
+</li>
+      <li><a href="library/wsgiref.html#wsgiref.handlers.BaseHandler.http_version">http_version（wsgiref.handlers.BaseHandler 属性）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPBasicAuthHandler">HTTPBasicAuthHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPConnection">HTTPConnection（http.client 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPCookieProcessor">HTTPCookieProcessor（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.server.html#index-0">httpd</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPDefaultErrorHandler">HTTPDefaultErrorHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPDigestAuthHandler">HTTPDigestAuthHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/urllib.error.html#urllib.error.HTTPError">HTTPError</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPErrorProcessor">HTTPErrorProcessor（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPException">HTTPException</a>
+</li>
+      <li><a href="library/logging.handlers.html#logging.handlers.HTTPHandler">HTTPHandler（logging.handlers 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPHandler">HTTPHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPMessage">HTTPMessage（http.client 中的类）</a>
+</li>
+      <li><a href="library/http.html#http.HTTPMethod">HTTPMethod（http 中的类）</a>
+</li>
+      <li><a href="library/http.cookies.html#http.cookies.Morsel.httponly">httponly（http.cookies.Morsel 属性）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPPasswordMgrWithDefaultRealm">HTTPPasswordMgrWithDefaultRealm（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPPasswordMgrWithPriorAuth">HTTPPasswordMgrWithPriorAuth（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPPasswordMgr">HTTPPasswordMgr（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPRedirectHandler">HTTPRedirectHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPResponse">HTTPResponse（http.client 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPSHandler.https_open">https_open() （urllib.request.HTTPSHandler 方法）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPS_PORT">HTTPS_PORT()（在 http.client 模块中）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPErrorProcessor.https_response">https_response() （urllib.request.HTTPErrorProcessor 方法）</a>
+</li>
+      <li><a href="library/http.client.html#http.client.HTTPSConnection">HTTPSConnection（http.client 中的类）</a>
+</li>
+      <li><a href="library/http.server.html#http.server.HTTPServer">HTTPServer（http.server 中的类）</a>
+</li>
+      <li><a href="library/urllib.request.html#urllib.request.HTTPSHandler">HTTPSHandler（urllib.request 中的类）</a>
+</li>
+      <li><a href="library/http.html#http.HTTPStatus">HTTPStatus（http 中的类）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_BROADCAST">HV_GUID_BROADCAST()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_CHILDREN">HV_GUID_CHILDREN()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_LOOPBACK">HV_GUID_LOOPBACK()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_PARENT">HV_GUID_PARENT()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_WILDCARD">HV_GUID_WILDCARD()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_GUID_ZERO">HV_GUID_ZERO()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HV_PROTOCOL_RAW">HV_PROTOCOL_RAW()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HVSOCKET_ADDRESS_FLAG_PASSTHRU">HVSOCKET_ADDRESS_FLAG_PASSTHRU()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HVSOCKET_CONNECT_TIMEOUT">HVSOCKET_CONNECT_TIMEOUT()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HVSOCKET_CONNECT_TIMEOUT_MAX">HVSOCKET_CONNECT_TIMEOUT_MAX()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/socket.html#socket.HVSOCKET_CONNECTED_SUSPEND">HVSOCKET_CONNECTED_SUSPEND()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/math.html#math.hypot">hypot()（在 math 模块中）</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+
+          <li><img src="static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">索引</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>

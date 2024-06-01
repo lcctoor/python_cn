@@ -1,0 +1,666 @@
+
+<!DOCTYPE html>
+
+<html lang="zh-CN" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>索引 &#8212; Python 3.12.3 文档</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="static/pygments.css?v=80d5e7a1" />
+    <link rel="stylesheet" type="text/css" href="static/pydoctheme.css?v=bb723527" />
+    <link id="pygments_dark_css" media="(prefers-color-scheme: dark)" rel="stylesheet" type="text/css" href="static/pygments_dark.css?v=b20cc3f5" />
+    
+    <script src="static/documentation_options.js?v=67b2dffe"></script>
+    <script src="static/doctools.js?v=9a2dae69"></script>
+    <script src="static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="static/translations.js?v=beaddf03"></script>
+    
+    <script src="static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.12.3 文档 中搜索"
+          href="static/opensearch.xml"/>
+    <link rel="author" title="关于此文档" href="about.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="copyright" title="版权所有" href="copyright.html" />
+    <link rel="canonical" href="https://docs.python.org/3/genindex-C.html" />
+    
+      
+    
+
+    
+    <style>
+      @media only screen {
+        table.full-width-table {
+            width: 100%;
+        }
+      }
+    </style>
+<link rel="stylesheet" href="static/pydoctheme_dark.css" media="(prefers-color-scheme: dark)" id="pydoctheme_dark_css">
+    <link rel="shortcut icon" type="image/png" href="static/py.svg" />
+            <script type="text/javascript" src="static/copybutton.js"></script>
+            <script type="text/javascript" src="static/menu.js"></script>
+            <script type="text/javascript" src="static/search-focus.js"></script>
+            <script type="text/javascript" src="static/themetoggle.js"></script> 
+<meta name="readthedocs-addons-api-version" content="1">
+<script type="text/javascript">
+ function onSwitch(event) {
+     const option = event.target.selectedIndex;
+     const item = event.target.options[option];
+     window.location.href = item.dataset.url;
+ }
+
+ document.addEventListener("readthedocs-addons-data-ready", function(event) {
+   const config = event.detail.data()
+
+   // Add some mocked hardcoded versions pointing to the official
+   // documentation while migrating to Read the Docs.
+   // These are only for testing purposes.
+   // TODO: remove them when managing all the versions on Read the Docs,
+   // since all the "active, built and not hidden" versions will be shown automatically.
+   let versions = config.versions.active.concat([
+       {
+           slug: "dev (3.13)",
+           urls: {
+               documentation: "https://docs.python.org/3.13/",
+           }
+       },
+       {
+           slug: "3.12",
+           urls: {
+               documentation: "https://docs.python.org/3.12/",
+           }
+       },
+       {
+           slug: "3.11",
+           urls: {
+               documentation: "https://docs.python.org/3.11/",
+           }
+       },
+   ]);
+
+   const versionSelect = `
+   <select id="version_select">
+   ${ versions.map(
+       (version) => `
+       <option
+           value="${ version.slug }"
+           ${ config.versions.current.slug === version.slug ? 'selected="selected"' : '' }
+           data-url="${ version.urls.documentation }">
+           ${ version.slug }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Prepend the current language to the options on the selector
+   let languages = config.projects.translations.concat(config.projects.current);
+   languages = languages.sort((a, b) => a.language.name.localeCompare(b.language.name));
+
+   const languageSelect = `
+   <select id="language_select">
+   ${ languages.map(
+       (translation) => `
+       <option
+           value="${ translation.slug }"
+           ${ config.projects.current.slug === translation.slug ? 'selected="selected"' : '' }
+           data-url="${ translation.urls.documentation }">
+           ${ translation.language.name }
+       </option>`
+   ).join("\n") }
+   </select>
+   `;
+
+   // Query all the placeholders because there are different ones for Desktop/Mobile
+   const versionPlaceholders = document.querySelectorAll(".version_switcher_placeholder");
+   for (placeholder of versionPlaceholders) {
+       placeholder.innerHTML = versionSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+
+   const languagePlaceholders = document.querySelectorAll(".language_switcher_placeholder");
+   for (placeholder of languagePlaceholders) {
+       placeholder.innerHTML = languageSelect;
+       let selectElement = placeholder.querySelector("select");
+       selectElement.addEventListener("change", onSwitch);
+   }
+ });
+</script>
+
+  </head>
+<body>
+<div class="mobile-nav">
+    <input type="checkbox" id="menuToggler" class="toggler__input" aria-controls="navigation"
+           aria-pressed="false" aria-expanded="false" role="button" aria-label="Menu" />
+    <nav class="nav-content" role="navigation">
+        <label for="menuToggler" class="toggler__label">
+            <span></span>
+        </label>
+        <span class="nav-items-wrapper">
+            <a href="https://www.python.org/" class="nav-logo">
+                <img src="static/py.svg" alt="Python logo"/>
+            </a>
+            <span class="version_switcher_placeholder"></span>
+            <form role="search" class="search" action="search.html" method="get">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="search-icon">
+                    <path fill-rule="nonzero" fill="currentColor" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" />
+                <input type="submit" value="提交"/>
+            </form>
+        </span>
+    </nav>
+    <div class="menu-wrapper">
+        <nav class="menu" role="navigation" aria-label="main navigation">
+            <div class="language_switcher_placeholder"></div>
+            
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label>
+        </nav>
+    </div>
+</div>
+
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+
+          <li><img src="static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">索引</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+
+<h1 id="index">索引 &ndash; C</h1>
+
+<table style="width: 100%" class="indextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="library/types.html#types.coroutine">coroutine()（在 types 模块中）</a>
+</li>
+      <li><a href="library/types.html#types.CoroutineType">CoroutineType()（在 types 模块中）</a>
+</li>
+      <li><a href="library/collections.abc.html#collections.abc.Coroutine">Coroutine（collections.abc 中的类）</a>
+</li>
+      <li><a href="library/typing.html#typing.Coroutine">Coroutine（typing 中的类）</a>
+</li>
+      <li><a href="library/statistics.html#statistics.correlation">correlation()（在 statistics 模块中）</a>
+</li>
+      <li><a href="library/cmath.html#cmath.cos">cos()（在 cmath 模块中）</a>
+</li>
+      <li><a href="library/math.html#math.cos">cos()（在 math 模块中）</a>
+</li>
+      <li><a href="library/cmath.html#cmath.cosh">cosh()（在 cmath 模块中）</a>
+</li>
+      <li><a href="library/math.html#math.cosh">cosh()（在 math 模块中）</a>
+</li>
+      <li><a href="library/stdtypes.html#index-20">count() (序列方法)</a>
+</li>
+      <li><a href="library/array.html#array.array.count">count() （array.array 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#bytearray.count">count() （bytearray 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#bytes.count">count() （bytes 方法）</a>
+</li>
+      <li><a href="library/collections.html#collections.deque.count">count() （collections.deque 方法）</a>
+</li>
+      <li><a href="library/multiprocessing.shared_memory.html#multiprocessing.shared_memory.ShareableList.count">count() （multiprocessing.shared_memory.ShareableList 方法）</a>
+</li>
+      <li><a href="library/stdtypes.html#str.count">count() （str 方法）</a>
+</li>
+      <li><a href="library/itertools.html#itertools.count">count()（在 itertools 模块中）</a>
+</li>
+      <li><a href="library/tracemalloc.html#tracemalloc.StatisticDiff.count_diff">count_diff（tracemalloc.StatisticDiff 属性）</a>
+</li>
+      <li><a href="library/collections.html#collections.Counter">Counter（collections 中的类）</a>
+</li>
+      <li><a href="library/typing.html#typing.Counter">Counter（typing 中的类）</a>
+</li>
+      <li><a href="library/operator.html#operator.countOf">countOf()（在 operator 模块中）</a>
+</li>
+      <li><a href="library/unittest.html#unittest.TestCase.countTestCases">countTestCases() （unittest.TestCase 方法）</a>
+</li>
+      <li><a href="library/unittest.html#unittest.TestSuite.countTestCases">countTestCases() （unittest.TestSuite 方法）</a>
+</li>
+      <li><a href="library/tracemalloc.html#tracemalloc.Statistic.count">count（tracemalloc.Statistic 属性）</a>
+</li>
+      <li><a href="library/tracemalloc.html#tracemalloc.StatisticDiff.count">count（tracemalloc.StatisticDiff 属性）</a>
+</li>
+      <li><a href="library/statistics.html#statistics.covariance">covariance()（在 statistics 模块中）</a>
+</li>
+      <li><a href="library/trace.html#trace.CoverageResults">CoverageResults（trace 中的类）</a>
+</li>
+      <li><a href="using/configure.html#index-70">CPPFLAGS</a>, <a href="using/configure.html#index-71">[1]</a>, <a href="using/configure.html#index-88">[2]</a>, <a href="whatsnew/2.3.html#index-27">[3]</a>
+</li>
+      <li>
+    cProfile
+
+      <ul>
+        <li><a href="library/profile.html#module-cProfile">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/time.html#index-12">CPU time</a>, <a href="library/time.html#index-7">[1]</a>
+</li>
+      <li><a href="library/multiprocessing.html#multiprocessing.cpu_count">cpu_count()（在 multiprocessing 模块中）</a>
+</li>
+      <li><a href="library/os.html#os.cpu_count">cpu_count()（在 os 模块中）</a>
+</li>
+      <li><a href="glossary.html#term-CPython"><strong>CPython</strong></a>
+</li>
+      <li><a href="library/test.html#test.support.cpython_only">cpython_only()（在 test.support 模块中）</a>
+</li>
+      <li><a href="library/curses.ascii.html#curses.ascii.CR">CR()（在 curses.ascii 模块中）</a>
+</li>
+      <li><a href="library/urllib.robotparser.html#urllib.robotparser.RobotFileParser.crawl_delay">crawl_delay() （urllib.robotparser.RobotFileParser 方法）</a>
+</li>
+      <li><a href="library/binascii.html#binascii.crc32">crc32()（在 binascii 模块中）</a>
+</li>
+      <li><a href="library/zlib.html#zlib.crc32">crc32()（在 zlib 模块中）</a>
+</li>
+      <li><a href="library/binascii.html#binascii.crc_hqx">crc_hqx()（在 binascii 模块中）</a>
+</li>
+      <li><a href="library/zipfile.html#zipfile.ZipInfo.CRC">CRC（zipfile.ZipInfo 属性）</a>
+</li>
+      <li><a href="library/imaplib.html#imaplib.IMAP4.create">create() （imaplib.IMAP4 方法）</a>
+</li>
+      <li><a href="library/venv.html#venv.EnvBuilder.create">create() （venv.EnvBuilder 方法）</a>
+</li>
+      <li><a href="library/venv.html#venv.create">create()（在 venv 模块中）</a>
+</li>
+      <li><a href="library/sqlite3.html#sqlite3.Connection.create_aggregate">create_aggregate() （sqlite3.Connection 方法）</a>
+</li>
+      <li><a href="library/zipapp.html#zipapp.create_archive">create_archive()（在 zipapp 模块中）</a>
+</li>
+      <li><a href="library/unittest.mock.html#unittest.mock.create_autospec">create_autospec()（在 unittest.mock 模块中）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.CREATE_BREAKAWAY_FROM_JOB">CREATE_BREAKAWAY_FROM_JOB()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/sqlite3.html#sqlite3.Connection.create_collation">create_collation() （sqlite3.Connection 方法）</a>
+</li>
+      <li><a href="library/venv.html#venv.EnvBuilder.create_configuration">create_configuration() （venv.EnvBuilder 方法）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_connection">create_connection() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/socket.html#socket.create_connection">create_connection()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_datagram_endpoint">create_datagram_endpoint() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/decimal.html#decimal.Context.create_decimal">create_decimal() （decimal.Context 方法）</a>
+</li>
+      <li><a href="library/decimal.html#decimal.Context.create_decimal_from_float">create_decimal_from_float() （decimal.Context 方法）</a>
+</li>
+      <li><a href="library/ssl.html#ssl.create_default_context">create_default_context()（在 ssl 模块中）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.CREATE_DEFAULT_ERROR_MODE">CREATE_DEFAULT_ERROR_MODE()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/asyncio-task.html#asyncio.create_eager_task_factory">create_eager_task_factory()（在 asyncio 模块中）</a>
+</li>
+      <li><a href="library/test.html#test.support.os_helper.create_empty_file">create_empty_file()（在 test.support.os_helper 模块中）</a>
+</li>
+      <li><a href="library/sqlite3.html#sqlite3.Connection.create_function">create_function() （sqlite3.Connection 方法）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_future">create_future() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/importlib.html#importlib.abc.Loader.create_module">create_module() （importlib.abc.Loader 方法）</a>
+</li>
+      <li><a href="library/importlib.html#importlib.machinery.ExtensionFileLoader.create_module">create_module() （importlib.machinery.ExtensionFileLoader 方法）</a>
+</li>
+      <li><a href="library/zipimport.html#zipimport.zipimporter.create_module">create_module() （zipimport.zipimporter 方法）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.CREATE_NEW_CONSOLE">CREATE_NEW_CONSOLE()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.CREATE_NEW_PROCESS_GROUP">CREATE_NEW_PROCESS_GROUP()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/subprocess.html#subprocess.CREATE_NO_WINDOW">CREATE_NO_WINDOW()（在 subprocess 模块中）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_server">create_server() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/socket.html#socket.create_server">create_server()（在 socket 模块中）</a>
+</li>
+      <li><a href="library/profile.html#profile.Profile.create_stats">create_stats() （profile.Profile 方法）</a>
+</li>
+      <li><a href="library/ctypes.html#ctypes.create_string_buffer">create_string_buffer()（在 ctypes 模块中）</a>
+</li>
+      <li><a href="library/asyncio-subprocess.html#asyncio.create_subprocess_exec">create_subprocess_exec()（在 asyncio 模块中）</a>
+</li>
+      <li><a href="library/asyncio-subprocess.html#asyncio.create_subprocess_shell">create_subprocess_shell()（在 asyncio 模块中）</a>
+</li>
+      <li><a href="library/zipfile.html#zipfile.ZipInfo.create_system">create_system（zipfile.ZipInfo 属性）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_task">create_task() （asyncio.loop 方法）</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="library/asyncio-task.html#asyncio.TaskGroup.create_task">create_task() （asyncio.TaskGroup 方法）</a>
+</li>
+      <li><a href="library/asyncio-task.html#asyncio.create_task">create_task()（在 asyncio 模块中）</a>
+</li>
+      <li><a href="library/ctypes.html#ctypes.create_unicode_buffer">create_unicode_buffer()（在 ctypes 模块中）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_unix_connection">create_unix_connection() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/asyncio-eventloop.html#asyncio.loop.create_unix_server">create_unix_server() （asyncio.loop 方法）</a>
+</li>
+      <li><a href="library/zipfile.html#zipfile.ZipInfo.create_version">create_version（zipfile.ZipInfo 属性）</a>
+</li>
+      <li><a href="library/sqlite3.html#sqlite3.Connection.create_window_function">create_window_function() （sqlite3.Connection 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createAttribute">createAttribute() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createAttributeNS">createAttributeNS() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createComment">createComment() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.DOMImplementation.createDocument">createDocument() （xml.dom.DOMImplementation 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.DOMImplementation.createDocumentType">createDocumentType() （xml.dom.DOMImplementation 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createElement">createElement() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createElementNS">createElementNS() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/tkinter.html#tkinter.Widget.tk.createfilehandler">createfilehandler() （_tkinter.Widget.tk 方法）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.CreateKey">CreateKey()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/winreg.html#winreg.CreateKeyEx">CreateKeyEx()（在 winreg 模块中）</a>
+</li>
+      <li><a href="library/logging.html#logging.Handler.createLock">createLock() （logging.Handler 方法）</a>
+</li>
+      <li><a href="library/logging.handlers.html#logging.NullHandler.createLock">createLock() （logging.NullHandler 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createProcessingInstruction">createProcessingInstruction() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/msilib.html#msilib.CreateRecord">CreateRecord()（在 msilib 模块中）</a>
+</li>
+      <li><a href="library/logging.handlers.html#logging.handlers.SocketHandler.createSocket">createSocket() （logging.handlers.SocketHandler 方法）</a>
+</li>
+      <li><a href="library/logging.handlers.html#logging.handlers.SysLogHandler.createSocket">createSocket() （logging.handlers.SysLogHandler 方法）</a>
+</li>
+      <li><a href="library/xml.dom.html#xml.dom.Document.createTextNode">createTextNode() （xml.dom.Document 方法）</a>
+</li>
+      <li><a href="library/constants.html#credits">credits（内置变量）</a>
+</li>
+      <li><a href="library/logging.html#logging.Logger.critical">critical() （logging.Logger 方法）</a>
+</li>
+      <li><a href="library/logging.html#logging.CRITICAL">CRITICAL()（在 logging 模块中）</a>
+</li>
+      <li><a href="library/logging.html#logging.critical">critical()（在 logging 模块中）</a>
+</li>
+      <li><a href="library/locale.html#locale.CRNCYSTR">CRNCYSTR()（在 locale 模块中）</a>
+</li>
+      <li><a href="library/audioop.html#audioop.cross">cross()（在 audioop 模块中）</a>
+</li>
+      <li><a href="library/msvcrt.html#msvcrt.CRT_ASSEMBLY_VERSION">CRT_ASSEMBLY_VERSION()（在 msvcrt 模块中）</a>
+</li>
+      <li>
+    crypt
+
+      <ul>
+        <li><a href="library/crypt.html#module-crypt">module</a>, <a href="library/pwd.html#index-0">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="library/crypt.html#crypt.crypt">crypt()（在 crypt 模块中）</a>
+</li>
+      <li><a href="library/crypt.html#index-0">crypt(3)</a>, <a href="library/crypt.html#index-2">[1]</a>, <a href="library/crypt.html#index-3">[2]</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclass_month_head">cssclass_month_head（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclass_month">cssclass_month（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclass_noday">cssclass_noday（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclass_year_head">cssclass_year_head（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclass_year">cssclass_year（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclasses_weekday_head">cssclasses_weekday_head（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/calendar.html#calendar.HTMLCalendar.cssclasses">cssclasses（calendar.HTMLCalendar 属性）</a>
+</li>
+      <li><a href="library/csv.html#index-0">csv</a>
+
+      <ul>
+        <li><a href="library/csv.html#module-csv">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/email.policy.html#email.policy.Policy.cte_type">cte_type（email.policy.Policy 属性）</a>
+</li>
+      <li><a href="library/os.html#os.ctermid">ctermid()（在 os 模块中）</a>
+</li>
+      <li><a href="library/email.headerregistry.html#email.headerregistry.ContentTransferEncoding.cte">cte（email.headerregistry.ContentTransferEncoding 属性）</a>
+</li>
+      <li><a href="library/datetime.html#datetime.date.ctime">ctime() （datetime.date 方法）</a>
+</li>
+      <li><a href="library/datetime.html#datetime.datetime.ctime">ctime() （datetime.datetime 方法）</a>
+</li>
+      <li><a href="library/time.html#time.ctime">ctime()（在 time 模块中）</a>
+</li>
+      <li><a href="library/curses.ascii.html#curses.ascii.ctrl">ctrl()（在 curses.ascii 模块中）</a>
+</li>
+      <li><a href="library/signal.html#signal.CTRL_BREAK_EVENT">CTRL_BREAK_EVENT()（在 signal 模块中）</a>
+</li>
+      <li><a href="library/signal.html#signal.CTRL_C_EVENT">CTRL_C_EVENT()（在 signal 模块中）</a>
+</li>
+      <li>
+    ctypes
+
+      <ul>
+        <li><a href="library/ctypes.html#module-ctypes">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/os.html#os.curdir">curdir()（在 os 模块中）</a>
+</li>
+      <li><a href="library/locale.html#locale.currency">currency()（在 locale 模块中）</a>
+</li>
+      <li><a href="library/tkinter.ttk.html#tkinter.ttk.Combobox.current">current() （tkinter.ttk.Combobox 方法）</a>
+</li>
+      <li><a href="library/multiprocessing.html#multiprocessing.current_process">current_process()（在 multiprocessing 模块中）</a>
+</li>
+      <li><a href="library/asyncio-task.html#asyncio.current_task">current_task()（在 asyncio 模块中）</a>
+</li>
+      <li><a href="library/threading.html#threading.current_thread">current_thread()（在 threading 模块中）</a>
+</li>
+      <li><a href="library/pyexpat.html#xml.parsers.expat.xmlparser.CurrentByteIndex">CurrentByteIndex（xml.parsers.expat.xmlparser 属性）</a>
+</li>
+      <li><a href="library/pyexpat.html#xml.parsers.expat.xmlparser.CurrentColumnNumber">CurrentColumnNumber（xml.parsers.expat.xmlparser 属性）</a>
+</li>
+      <li><a href="library/inspect.html#inspect.currentframe">currentframe()（在 inspect 模块中）</a>
+</li>
+      <li><a href="library/pyexpat.html#xml.parsers.expat.xmlparser.CurrentLineNumber">CurrentLineNumber（xml.parsers.expat.xmlparser 属性）</a>
+</li>
+      <li><a href="library/curses.html#curses.curs_set">curs_set()（在 curses 模块中）</a>
+</li>
+      <li>
+    curses
+
+      <ul>
+        <li><a href="library/curses.html#module-curses">module</a>
+</li>
+      </ul></li>
+      <li>
+    curses.ascii
+
+      <ul>
+        <li><a href="library/curses.ascii.html#module-curses.ascii">module</a>
+</li>
+      </ul></li>
+      <li>
+    curses.panel
+
+      <ul>
+        <li><a href="library/curses.panel.html#module-curses.panel">module</a>
+</li>
+      </ul></li>
+      <li>
+    curses.textpad
+
+      <ul>
+        <li><a href="library/curses.html#module-curses.textpad">module</a>
+</li>
+      </ul></li>
+      <li><a href="library/sqlite3.html#sqlite3.Connection.cursor">cursor() （sqlite3.Connection 方法）</a>
+</li>
+      <li><a href="library/sqlite3.html#sqlite3.Cursor">Cursor（sqlite3 中的类）</a>
+</li>
+      <li><a href="library/curses.html#curses.window.cursyncup">cursyncup() （curses.window 方法）</a>
+</li>
+      <li><a href="library/ftplib.html#ftplib.FTP.cwd">cwd() （ftplib.FTP 方法）</a>
+</li>
+      <li><a href="library/pathlib.html#pathlib.Path.cwd">cwd()（pathlib.Path 类方法）</a>
+</li>
+      <li><a href="library/itertools.html#itertools.cycle">cycle()（在 itertools 模块中）</a>
+</li>
+      <li><a href="library/graphlib.html#graphlib.CycleError">CycleError</a>
+</li>
+  </ul></td>
+</tr></table>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+        </div>
+<div id="sidebarbutton" title="折叠边栏">
+<span>«</span>
+</div>
+
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="总索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+
+          <li><img src="static/py.svg" alt="Python logo" style="vertical-align: middle; margin-top: -1px"/></li>
+          
+          <li class="switchers">
+            <div class="language_switcher_placeholder"></div>
+            <div class="version_switcher_placeholder"></div>
+          </li>
+          <li>
+              
+          </li>
+    <li id="cpython-language-and-version">
+      <a href="index.html">3.12.3 Documentation</a> &#187;
+    </li>
+
+        <li class="nav-item nav-item-this"><a href="">索引</a></li>
+                <li class="right">
+                    
+
+    <div class="inline-search" role="search">
+        <form class="inline-search" action="search.html" method="get">
+          <input placeholder="快速搜索" aria-label="快速搜索" type="search" name="q" id="search-box" />
+          <input type="submit" value="提交" />
+        </form>
+    </div>
+                     |
+                </li>
+            <li class="right">
+<label class="theme-selector-label">
+    Theme
+    <select class="theme-selector" oninput="activateTheme(this.value)">
+        <option value="auto" selected>Auto</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+</label> |</li>
+            
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; 
+      <a href="copyright.html">
+    
+    版权所有
+    
+      </a>
+     2001-2024, Python Software Foundation.
+    <br />
+    This page is licensed under the Python Software Foundation License Version 2.
+    <br />
+    Examples, recipes, and other code in the documentation are additionally licensed under the Zero Clause BSD License.
+    <br />
+    
+      See <a href="/license.html">History and License</a> for more information.<br />
+    
+    
+    <br />
+
+    The Python Software Foundation is a non-profit corporation.
+<a href="https://www.python.org/psf/donations/">Please donate.</a>
+<br />
+    <br />
+      最后更新于 May 31, 2024 (10:14 UTC).
+    
+      <a href="/bugs.html">Found a bug</a>?
+    
+    <br />
+
+    由 <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7创建。
+    </div>
+
+  </body>
+</html>
